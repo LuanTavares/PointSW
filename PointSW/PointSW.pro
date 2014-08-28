@@ -4,5 +4,6 @@ HEADERS += \
     Conexao.h
 
 SOURCES += \
-    Conexao.cpp
+    Conexao.cpp \
+    Main.cpp
 
