@@ -9,7 +9,11 @@ HEADERS += \
     Setup.h \
     Paradas.h \
     Producao.h \
-    Apontamento.h
+    Apontamento.h \
+    UsuarioDAO.h \
+    MaquinaDAO.h \
+    ClienteDAO.h \
+    OrdemDeProducaoDAO.h
 
 SOURCES += \
     Conexao.cpp \
@@ -21,5 +25,9 @@ SOURCES += \
     Setup.cpp \
     Paradas.cpp \
     Producao.cpp \
-    Apontamento.cpp
+    Apontamento.cpp \
+    UsuarioDAO.cpp \
+    MaquinaDAO.cpp \
+    ClienteDAO.cpp \
+    OrdemDeProducaoDAO.cpp
 

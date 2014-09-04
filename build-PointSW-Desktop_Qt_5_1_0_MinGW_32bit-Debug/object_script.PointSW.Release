@@ -9,4 +9,8 @@ INPUT(
 ./release\Paradas.o
 ./release\Producao.o
 ./release\Apontamento.o
+./release\UsuarioDAO.o
+./release\MaquinaDAO.o
+./release\ClienteDAO.o
+./release\OrdemDeProducaoDAO.o
 );
