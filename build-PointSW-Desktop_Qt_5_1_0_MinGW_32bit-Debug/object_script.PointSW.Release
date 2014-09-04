@@ -1,0 +1,12 @@
+INPUT(
+./release\Conexao.o
+./release\Main.o
+./release\Cliente.o
+./release\Maquina.o
+./release\Usuario.o
+./release\OrdemDeProducao.o
+./release\Setup.o
+./release\Paradas.o
+./release\Producao.o
+./release\Apontamento.o
+);

@@ -6,7 +6,10 @@ HEADERS += \
     Maquina.h \
     Usuario.h \
     OrdemDeProducao.h \
-    Setup.h
+    Setup.h \
+    Paradas.h \
+    Producao.h \
+    Apontamento.h
 
 SOURCES += \
     Conexao.cpp \
@@ -15,5 +18,8 @@ SOURCES += \
     Maquina.cpp \
     Usuario.cpp \
     OrdemDeProducao.cpp \
-    Setup.cpp
+    Setup.cpp \
+    Paradas.cpp \
+    Producao.cpp \
+    Apontamento.cpp
 

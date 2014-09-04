@@ -1,22 +1,24 @@
-#ifndef SETUP_H
-#define SETUP_H
+#ifndef PRODUCAO_H
+#define PRODUCAO_H
 #include <QDate>
 #include "Maquina.h"
 #include "OrdemDeProducao.h"
 #include "Usuario.h"
-class Setup {
+class Producao {
 private:
     Maquina * maquina;
     OrdemDeProducao * OP;
     Usuario * usuario;
     QDate dataInicio;
     int horaInicio;
+    int contagem;
     QDate dataFim;
     int horaFim;
+    int status;
 public:
-    Setup();
-    Setup(Maquina * maquina, OrdemDeProducao * op, Usuario * usuario, QDate datIni, int horIni, QDate datFim, int horFim);
-    ~Setup();
+    Producao();
+    Producao(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int contagem, QDate datFim, int HorFim, int status);
+    ~Producao();
 
     // Gets
     Maquina * getMaquina();
@@ -24,8 +26,10 @@ public:
     Usuario * getUsuario();
     QDate getDataInicio();
     int getHoraInicio();
+    int getContagem();
     QDate getDataFim();
     int getHoraFim();
+    int getStatus();
 
     // Sets
     void setMaquina(Maquina * maquina);
@@ -33,9 +37,10 @@ public:
     void setUsuario(Usuario * usuario);
     void setDataInicio(QDate datIni);
     void setHoraInicio(int horIni);
+    void setConagem(int contagem);
     void setDataFim(QDate datFim);
     void setHoraFim(int horFim);
-
+    void setStatus(int status);
 };
 
-#endif // SETUP_H
+#endif // PRODUCAO_H

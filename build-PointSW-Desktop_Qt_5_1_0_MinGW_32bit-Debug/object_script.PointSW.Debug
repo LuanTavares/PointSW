@@ -1,0 +1,12 @@
+INPUT(
+./debug\Conexao.o
+./debug\Main.o
+./debug\Cliente.o
+./debug\Maquina.o
+./debug\Usuario.o
+./debug\OrdemDeProducao.o
+./debug\Setup.o
+./debug\Paradas.o
+./debug\Producao.o
+./debug\Apontamento.o
+);
