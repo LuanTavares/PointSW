@@ -39,7 +39,8 @@ Cliente *ClienteDAO::getCliente(int codigoCliente) {
             db.close();
             return retorno;
         } else {
-            retorno = new Cliente(query.value(0).toInt(), query.value(1).toString());
+            if (query.first())
+                retorno = new Cliente(query.value(0).toInt(), query.value(1).toString());
         }
         db.close();
     } else {
@@ -51,8 +52,7 @@ Cliente *ClienteDAO::getCliente(int codigoCliente) {
 bool ClienteDAO::insereCliente(Cliente cli) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("INSERT INTO Clientes (CodigoCliente, NomeCliente) VALUES (?,?)");
-        query.addBindValue(cli.getCodigoCliente());
+        query.prepare("INSERT INTO Clientes (NomeCliente) VALUES (?)");
         query.addBindValue(cli.getNomeCliente());
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;

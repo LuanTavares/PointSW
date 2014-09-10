@@ -14,9 +14,10 @@ private:
     int sequencia;
     QDate dataFim;
     int horaFim;
+    int motivo;
 public:
     Parada();
-    Parada(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim);
+    Parada(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim, int motivo);
     ~Parada();
 
     // Gets
@@ -28,6 +29,7 @@ public:
     int getSequencia();
     QDate getDataFim();
     int getHoraFim();
+    int getMotivo();
 
     // Sets
     void setMaquina(Maquina * maquina);
@@ -38,7 +40,7 @@ public:
     void setSequencia(int Sequencia);
     void setDataFim(QDate datFim);
     void setHoraFim(int horFim);
-
+    void setMotivo(int motivo);
 };
 
 #endif // PARADAS_H

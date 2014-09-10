@@ -13,4 +13,8 @@ INPUT(
 ./debug\MaquinaDAO.o
 ./debug\ClienteDAO.o
 ./debug\OrdemDeProducaoDAO.o
+./debug\SetupDAO.o
+./debug\ProducaoDAO.o
+./debug\ParadasDAO.o
+./debug\ApontamentoDAO.o
 );

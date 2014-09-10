@@ -13,7 +13,11 @@ HEADERS += \
     UsuarioDAO.h \
     MaquinaDAO.h \
     ClienteDAO.h \
-    OrdemDeProducaoDAO.h
+    OrdemDeProducaoDAO.h \
+    SetupDAO.h \
+    ProducaoDAO.h \
+    ParadasDAO.h \
+    ApontamentoDAO.h
 
 SOURCES += \
     Conexao.cpp \
@@ -29,5 +33,9 @@ SOURCES += \
     UsuarioDAO.cpp \
     MaquinaDAO.cpp \
     ClienteDAO.cpp \
-    OrdemDeProducaoDAO.cpp
+    OrdemDeProducaoDAO.cpp \
+    SetupDAO.cpp \
+    ProducaoDAO.cpp \
+    ParadasDAO.cpp \
+    ApontamentoDAO.cpp
 

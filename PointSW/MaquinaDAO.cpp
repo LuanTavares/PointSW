@@ -32,14 +32,15 @@ Maquina *MaquinaDAO::getMaquina(int codigoMaquina) {
     Maquina * retorno = NULL;
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT CodigoMaquina, NomeMaquina, StatusMaquina FROM Maquinas WHERE CodigoMaquina = ?");
+        query.prepare("SELECT CodigoMaquina, NomeMaquina, StatusMaquina FROM Maquina WHERE CodigoMaquina = ?");
         query.addBindValue(codigoMaquina);
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return retorno;
         } else {
-            retorno = new Maquina(query.value(0).toInt(), query.value(1).toString(), query.value(2).toInt());
+            if (query.first())
+                retorno = new Maquina(query.value(0).toInt(), query.value(1).toString(), query.value(2).toInt());
         }
         db.close();
     } else {
@@ -51,8 +52,7 @@ Maquina *MaquinaDAO::getMaquina(int codigoMaquina) {
 bool MaquinaDAO::insereMaquina(Maquina maq) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("INSERT INTO Maquina (CodigoMaquina, NomeMaquina, StatusMaquina) VALUES (?,?,?)");
-        query.addBindValue(maq.getCodigoMaquina());
+        query.prepare("INSERT INTO Maquina (NomeMaquina, StatusMaquina) VALUES (?,?)");
         query.addBindValue(maq.getNomemaquina());
         query.addBindValue(maq.getStatus());
         if(!query.exec()){

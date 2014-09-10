@@ -14,6 +14,7 @@ private:
 public:
     UsuarioDAO(Conexao * conn);
     QList <Usuario> getUsuarios();
+    Usuario * getUsuario(int usu);
     bool insereUsuario(Usuario usu);
     bool atualizaUsuario(Usuario usu);
     bool deletaUsuario(Usuario usu);

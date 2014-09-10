@@ -9,7 +9,7 @@ QList <OrdemDeProducao> OrdemDeProducaoDAO::getOPs() {
     QList <OrdemDeProducao> retorno;
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT op, CodigoCliente, CodigoMaquina, ordem, QuantidadeProgramada, dataentrega FROM OrdemdeProducao");
+        query.prepare("SELECT op, CodigoCliente, CodigoMaquina, ordem, QuantidadeProgramada, datadeentrega FROM OrdemdeProducao");
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
@@ -36,10 +36,38 @@ QList <OrdemDeProducao> OrdemDeProducaoDAO::getOPs() {
     return retorno;
 }
 
+OrdemDeProducao *OrdemDeProducaoDAO::getOP(int op) {
+    OrdemDeProducao * retorno = NULL;
+    if(db.open()) {
+        query = QSqlQuery(db);
+        query.prepare("SELECT OP, CodigoCliente, Maquina, Ordem, QuantidadeProgramada, DataDeEntrega FROM OrdemDeProducao WHERE OP = ?");
+        query.addBindValue(op);
+        if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return retorno;
+        } else {
+
+            ClienteDAO cliDAO(conn);
+            Cliente * cli = cliDAO.getCliente(query.value(1).toInt());
+
+            MaquinaDAO maqDAO(conn);
+            Maquina * maq = maqDAO.getMaquina(query.value(2).toInt());
+
+            retorno = new OrdemDeProducao(query.value(0).toString(), cli, maq, query.value(3).toInt(), query.value(4).toInt(), query.value(5).toDate());
+
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+}
+
 bool OrdemDeProducaoDAO::insereOP(OrdemDeProducao op) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("INSERT INTO OrdemdeProducao (op, CodigoCliente, CodigoMaquina, ordem, QuantidadeProgramada, dataentrega) VALUES (?,?,?,?,?,?)");
+        query.prepare("INSERT INTO OrdemdeProducao (op, CodigoCliente, CodigoMaquina, ordem, QuantidadeProgramada, datadeentrega) VALUES (?,?,?,?,?,?)");
         query.addBindValue(op.getOP());
         query.addBindValue(op.getCliente()->getCodigoCliente());
         query.addBindValue(op.getMaquina()->getCodigoMaquina());
@@ -62,7 +90,7 @@ bool OrdemDeProducaoDAO::insereOP(OrdemDeProducao op) {
 bool OrdemDeProducaoDAO::atualizaOP(OrdemDeProducao op) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("UPDATE OrdemdeProducao SET CodigoCliente = ?, CodigoMaquina = ?, ordem = ?, QuantidadeProgramada = ?, dataentrega = ? WHERE op = ?");
+        query.prepare("UPDATE OrdemdeProducao SET CodigoCliente = ?, CodigoMaquina = ?, ordem = ?, QuantidadeProgramada = ?, datadeentrega = ? WHERE op = ?");
         query.addBindValue(op.getCliente()->getCodigoCliente());
         query.addBindValue(op.getMaquina()->getCodigoMaquina());
         query.addBindValue(op.getOrdem());

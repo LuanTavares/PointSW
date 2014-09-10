@@ -19,6 +19,7 @@ private:
 public:
     OrdemDeProducaoDAO(Conexao * conn);
     QList <OrdemDeProducao> getOPs();
+    OrdemDeProducao * getOP(int op);
     bool insereOP(OrdemDeProducao op);
     bool atualizaOP(OrdemDeProducao op);
     bool deletaOP(OrdemDeProducao op);

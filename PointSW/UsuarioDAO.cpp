@@ -28,6 +28,26 @@ QList <Usuario> UsuarioDAO::getUsuarios() {
     return retorno;
 }
 
+Usuario *UsuarioDAO::getUsuario(int usu) {
+    Usuario * retorno = NULL;
+    if(db.open()) {
+        query = QSqlQuery(db);
+        query.prepare("SELECT CodigoUsuario, NomeUsuario, Grupo FROM Usuario WHERE CodigoUsuario = ?");
+        query.addBindValue(usu);
+        if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return retorno;
+        } else {
+            retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+}
+
 bool UsuarioDAO::insereUsuario(Usuario usu) {
     if(db.open()) {
         query = QSqlQuery(db);

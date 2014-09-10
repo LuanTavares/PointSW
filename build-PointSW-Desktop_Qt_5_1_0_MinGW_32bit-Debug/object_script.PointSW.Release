@@ -13,4 +13,8 @@ INPUT(
 ./release\MaquinaDAO.o
 ./release\ClienteDAO.o
 ./release\OrdemDeProducaoDAO.o
+./release\SetupDAO.o
+./release\ProducaoDAO.o
+./release\ParadasDAO.o
+./release\ApontamentoDAO.o
 );
