@@ -11,6 +11,7 @@ private:
 public:
     Maquina();
     Maquina(int codigo, QString nome, int status);
+    Maquina(Maquina * maq);
     ~Maquina();
 
     // Gets

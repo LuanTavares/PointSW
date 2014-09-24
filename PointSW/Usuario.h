@@ -10,6 +10,7 @@ private:
 public:
     Usuario();
     Usuario(int codigo, QString nome, QString grupo);
+    Usuario(Usuario * usu);
     ~Usuario();
 
     // Gets

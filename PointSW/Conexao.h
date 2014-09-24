@@ -8,6 +8,7 @@ public:
     Conexao();
     ~Conexao();
     QSqlDatabase getDataBase();
+    void setDataBase(QSqlDatabase db);
 private:
     QSqlDatabase db;
 };

@@ -19,8 +19,10 @@ private:
     QSqlQuery query;
     Conexao * conn;
 public:
-    SetupDAO(Conexao * conn);
-    QList <Setup> getSetup();
+    SetupDAO(QSqlDatabase conn);
+    QList <Setup> getSetups();
+    Setup getSetup(Maquina * maq, OrdemDeProducao * op, Usuario * usu, QDate datIni, int HorIni);
+    bool existeEsteSetup(Setup * set);
     bool insereSetup(Setup setup);
     bool atualizaSetup(Setup setup);
     bool deletaSetup(Setup setup);

@@ -13,6 +13,15 @@ OrdemDeProducao::OrdemDeProducao(QString OP, Cliente *cliente, Maquina *maquina,
     this->dataDeEntrada = entrega;
 }
 
+OrdemDeProducao::OrdemDeProducao(OrdemDeProducao *op) {
+    this->OP = op->getOP();
+    this->cliente = new Cliente(op->getCliente());
+    this->maquina = new Maquina(op->getMaquina());
+    this->ordem = op->getOrdem();
+    this->quantidadeProgramada = op->getQuantidadeProgramada();
+    this->dataDeEntrada = op->getDataDeEntrega();
+}
+
 OrdemDeProducao::~OrdemDeProducao() {
     delete this->cliente;
     delete this->maquina;

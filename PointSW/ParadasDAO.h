@@ -19,7 +19,7 @@ private:
     QSqlQuery query;
     Conexao * conn;
 public:
-    ParadasDAO(Conexao * conn);
+    ParadasDAO(QSqlDatabase conn);
     QList <Parada> getParada();
     bool insereParada(Parada parada);
     bool atualizaParada(Parada parada);

@@ -10,6 +10,12 @@ Usuario::Usuario(int codigo, QString nome, QString grupo) {
     this->grupo = grupo;
 }
 
+Usuario::Usuario(Usuario *usu) {
+    this->codigoUsuario = usu->codigoUsuario;
+    this->nomeUsuario = usu->getNomeUsuario();
+    this->grupo = usu->getGrupo();
+}
+
 Usuario::~Usuario() {
 
 }

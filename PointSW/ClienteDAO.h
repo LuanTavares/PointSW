@@ -12,7 +12,7 @@ private:
     QSqlDatabase db;
     QSqlQuery query;
 public:
-    ClienteDAO(Conexao * conn);
+    ClienteDAO(QSqlDatabase conn);
     QList <Cliente> getClientes();
     Cliente * getCliente(int codigoCliente);
     bool insereCliente(Cliente cli);

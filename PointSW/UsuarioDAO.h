@@ -12,7 +12,7 @@ private:
     QSqlDatabase db;
     QSqlQuery query;
 public:
-    UsuarioDAO(Conexao * conn);
+    UsuarioDAO(QSqlDatabase conn);
     QList <Usuario> getUsuarios();
     Usuario * getUsuario(int usu);
     bool insereUsuario(Usuario usu);

@@ -10,6 +10,12 @@ Maquina::Maquina(int codigo, QString nome, int status) {
     this->status = status;
 }
 
+Maquina::Maquina(Maquina *maq) {
+    this->codigoMaquina = maq->getCodigoMaquina();
+    this->nomeMaquina = maq->getNomemaquina();
+    this->status = maq->getStatus();
+}
+
 Maquina::~Maquina() {
 
 }

@@ -1,11 +1,10 @@
 #include "SetupDAO.h"
 
-SetupDAO::SetupDAO(Conexao *conn) {
-    db = conn->getDataBase();
-    this->conn = conn;
+SetupDAO::SetupDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
-QList <Setup> SetupDAO::getSetup() {
+QList <Setup> SetupDAO::getSetups() {
     QList <Setup> retorno;
     if(db.open()) {
         query = QSqlQuery(db);
@@ -18,13 +17,13 @@ QList <Setup> SetupDAO::getSetup() {
             int i = 0;
             while (query.next()) {
 
-                MaquinaDAO maqDAO(conn);
+                MaquinaDAO maqDAO(db);
                 Maquina * maq = maqDAO.getMaquina(query.value(0).toInt());
 
-                OrdemDeProducaoDAO opDAO(conn);
-                OrdemDeProducao * op = opDAO.getOP(query.value(1).toInt());
+                OrdemDeProducaoDAO opDAO(db);
+                OrdemDeProducao * op = opDAO.getOP(query.value(1).toString());
 
-                UsuarioDAO usuDAO(conn);
+                UsuarioDAO usuDAO(db);
                 Usuario * usu = usuDAO.getUsuario(query.value(2).toInt());
 
                 Setup dialogSetup(maq,op,usu,query.value(3).toDate(),query.value(4).toInt(),query.value(5).toDate(),query.value(6).toInt());
@@ -38,6 +37,73 @@ QList <Setup> SetupDAO::getSetup() {
         std::cout << db.lastError().text().toStdString() << std::endl;
     }
     return retorno;
+}
+
+Setup SetupDAO::getSetup(Maquina *maq, OrdemDeProducao *op, Usuario *usu, QDate datIni, int HorIni) {
+    Maquina * maquina = new Maquina(maq);
+    OrdemDeProducao * ordemDeProducao = new OrdemDeProducao(op);
+    Usuario * usuario = new Usuario(usu);
+
+    Setup * retorno;
+    if(db.isOpen())
+        db.close();
+
+    if(db.open()) {
+        query = QSqlQuery(db);
+        query.prepare("SELECT DataFim, HoraFim FROM Setup WHERE CodigoMaquina = ? AND op = ? AND CodigoUsuario = ? AND DataInicio = ? AND HoraInicio = ?");
+        query.addBindValue(maquina->getCodigoMaquina());
+        query.addBindValue(ordemDeProducao->getOP());
+        query.addBindValue(usuario->getCodigoUsuario());
+        query.addBindValue(datIni);
+        query.addBindValue(HorIni);
+        if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return retorno;
+        } else {
+            if (query.first()) {
+
+                retorno = new Setup(maquina,ordemDeProducao,usuario,datIni,HorIni,query.value(0).toDate(),query.value(1).toInt());
+            }
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+
+}
+
+bool SetupDAO::existeEsteSetup(Setup * set) {
+    Setup * setup = new Setup(set);
+    bool retorno = false;
+    if(db.isOpen())
+        db.close();
+
+    if(db.open()) {
+        query = QSqlQuery(db);
+        query.prepare("SELECT op FROM Setup WHERE CodigoMaquina = ? AND op = ? AND CodigoUsuario = ? AND DataInicio = ? AND HoraInicio = ?");
+        query.addBindValue(setup->getMaquina()->getCodigoMaquina());
+        query.addBindValue(setup->getOP()->getOP());
+        query.addBindValue(setup->getUsuario()->getCodigoUsuario());
+        query.addBindValue(setup->getDataInicio());
+        query.addBindValue(setup->getHoraInicio());
+        if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            retorno = false;
+            return retorno;
+        } else {
+            if (query.first()) {
+                retorno = true;
+            }
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+
 }
 
 bool SetupDAO::insereSetup(Setup setup) {

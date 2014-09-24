@@ -10,6 +10,7 @@ private:
 public:
     Cliente();
     Cliente(int codigo, QString nome);
+    Cliente(Cliente * cli);
     ~Cliente();
 
     // Gets

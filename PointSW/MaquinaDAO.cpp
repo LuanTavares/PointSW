@@ -1,7 +1,7 @@
 #include "MaquinaDAO.h"
 
-MaquinaDAO::MaquinaDAO(Conexao *conn) {
-    db = conn->getDataBase();
+MaquinaDAO::MaquinaDAO(QSqlDatabase conn) {
+    db = QSqlDatabase(conn);
 }
 
 QList <Maquina> MaquinaDAO::getMaquinas() {
@@ -30,6 +30,9 @@ QList <Maquina> MaquinaDAO::getMaquinas() {
 
 Maquina *MaquinaDAO::getMaquina(int codigoMaquina) {
     Maquina * retorno = NULL;
+    if(db.isOpen())
+        db.close();
+
     if(db.open()) {
         query = QSqlQuery(db);
         query.prepare("SELECT CodigoMaquina, NomeMaquina, StatusMaquina FROM Maquina WHERE CodigoMaquina = ?");

@@ -12,3 +12,7 @@ Conexao::Conexao() {
 QSqlDatabase Conexao::getDataBase(){
     return db;
 }
+
+void Conexao::setDataBase(QSqlDatabase db) {
+    this->db = db;
+}

@@ -17,7 +17,10 @@ HEADERS += \
     SetupDAO.h \
     ProducaoDAO.h \
     ParadasDAO.h \
-    ApontamentoDAO.h
+    ApontamentoDAO.h \
+    TelaPrincipal.h \
+    TelaSetup.h \
+    TelaDeLogin.h
 
 SOURCES += \
     Conexao.cpp \
@@ -37,5 +40,13 @@ SOURCES += \
     SetupDAO.cpp \
     ProducaoDAO.cpp \
     ParadasDAO.cpp \
-    ApontamentoDAO.cpp
+    ApontamentoDAO.cpp \
+    TelaPrincipal.cpp \
+    TelaSetup.cpp \
+    TelaDeLogin.cpp
+
+FORMS += \
+    TelaPrincipal.ui \
+    TelaSetup.ui \
+    TelaDeLogin.ui
 

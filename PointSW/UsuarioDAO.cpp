@@ -1,7 +1,7 @@
 #include "UsuarioDAO.h"
 
-UsuarioDAO::UsuarioDAO(Conexao *conn) {
-    db = conn->getDataBase();
+UsuarioDAO::UsuarioDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
 QList <Usuario> UsuarioDAO::getUsuarios() {
@@ -39,7 +39,8 @@ Usuario *UsuarioDAO::getUsuario(int usu) {
             db.close();
             return retorno;
         } else {
-            retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+            if(query.first())
+                retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
         }
         db.close();
     } else {

@@ -16,6 +16,7 @@ private:
 public:
     Setup();
     Setup(Maquina * maquina, OrdemDeProducao * op, Usuario * usuario, QDate datIni, int horIni, QDate datFim, int horFim);
+    Setup(Setup * setup);
     ~Setup();
 
     // Gets

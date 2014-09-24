@@ -17,4 +17,10 @@ INPUT(
 ./debug\ProducaoDAO.o
 ./debug\ParadasDAO.o
 ./debug\ApontamentoDAO.o
+./debug\TelaPrincipal.o
+./debug\TelaSetup.o
+./debug\TelaDeLogin.o
+./debug\moc_TelaPrincipal.o
+./debug\moc_TelaSetup.o
+./debug\moc_TelaDeLogin.o
 );

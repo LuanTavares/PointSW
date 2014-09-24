@@ -19,7 +19,7 @@ private:
     QSqlQuery query;
     Conexao * conn;
 public:
-    ApontamentoDAO(Conexao * conn);
+    ApontamentoDAO(QSqlDatabase conn);
     QList <Apontamento> getApontamento();
     bool insereApontamento(Apontamento apontamento);
     bool atualizaApontamento(Apontamento apontamento);

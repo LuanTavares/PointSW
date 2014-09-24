@@ -9,6 +9,11 @@ Cliente::Cliente(int codigo, QString nome) {
     this->nomeCliente = nome;
 }
 
+Cliente::Cliente(Cliente *cli) {
+    this->codigoCliente = cli->getCodigoCliente();
+    this->nomeCliente = cli->getNomeCliente();
+}
+
 Cliente::~Cliente() {
 
 }

@@ -1,7 +1,7 @@
 #include "ClienteDAO.h"
 
-ClienteDAO::ClienteDAO(Conexao *conn) {
-    db = conn->getDataBase();
+ClienteDAO::ClienteDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
 QList <Cliente> ClienteDAO::getClientes() {

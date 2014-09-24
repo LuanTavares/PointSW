@@ -1,8 +1,7 @@
 #include "ApontamentoDAO.h"
 
-ApontamentoDAO::ApontamentoDAO(Conexao *conn) {
-    db = conn->getDataBase();
-    this->conn = conn;
+ApontamentoDAO::ApontamentoDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
 QList <Apontamento> ApontamentoDAO::getApontamento() {
@@ -18,13 +17,13 @@ QList <Apontamento> ApontamentoDAO::getApontamento() {
             int i = 0;
             while (query.next()) {
 
-                MaquinaDAO maqDAO(conn);
+                MaquinaDAO maqDAO(db);
                 Maquina * maq = maqDAO.getMaquina(query.value(0).toInt());
 
-                OrdemDeProducaoDAO opDAO(conn);
-                OrdemDeProducao * op = opDAO.getOP(query.value(1).toInt());
+                OrdemDeProducaoDAO opDAO(db);
+                OrdemDeProducao * op = opDAO.getOP(query.value(1).toString());
 
-                UsuarioDAO usuDAO(conn);
+                UsuarioDAO usuDAO(db);
                 Usuario * usu = usuDAO.getUsuario(query.value(2).toInt());
 
                 Apontamento dialogApontamento(maq,op,usu,query.value(3).toInt(),query.value(4).toInt(),query.value(5).toInt(),query.value(6).toInt());

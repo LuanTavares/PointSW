@@ -5,14 +5,14 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <iostream>
-#include "Conexao.h"
+#include <QtSql>
 #include "Maquina.h"
 class MaquinaDAO {
 private:
     QSqlDatabase db;
     QSqlQuery query;
 public:
-    MaquinaDAO(Conexao * conn);
+    MaquinaDAO(QSqlDatabase conn);
     QList <Maquina> getMaquinas();
     Maquina * getMaquina(int codigoMaquina);
     bool insereMaquina(Maquina maq);

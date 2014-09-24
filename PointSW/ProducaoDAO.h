@@ -19,7 +19,7 @@ private:
     QSqlQuery query;
     Conexao * conn;
 public:
-    ProducaoDAO(Conexao * conn);
+    ProducaoDAO(QSqlDatabase conn);
     QList <Producao> getProducao();
     bool insereProducao(Producao producao);
     bool atualizaProducao(Producao producao);

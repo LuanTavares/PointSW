@@ -15,6 +15,7 @@ private:
 
 public:
     OrdemDeProducao();
+    OrdemDeProducao(OrdemDeProducao * op);
     OrdemDeProducao(QString OP, Cliente * cliente, Maquina * maquina, int ordem, int qtdProgramada, QDate entrega);
     ~OrdemDeProducao();
 

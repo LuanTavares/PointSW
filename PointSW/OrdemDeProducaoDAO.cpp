@@ -1,32 +1,51 @@
 #include "OrdemDeProducaoDAO.h"
 
-OrdemDeProducaoDAO::OrdemDeProducaoDAO(Conexao *conn) {
-    db = conn->getDataBase();
-    this->conn = conn;
+OrdemDeProducaoDAO::OrdemDeProducaoDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
-QList <OrdemDeProducao> OrdemDeProducaoDAO::getOPs() {
-    QList <OrdemDeProducao> retorno;
+QList <OrdemDeProducao *> OrdemDeProducaoDAO::getOPs() {
+    QList <OrdemDeProducao *> retorno;
+    int i = 0;
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT op, CodigoCliente, CodigoMaquina, ordem, QuantidadeProgramada, datadeentrega FROM OrdemdeProducao");
+        query.prepare("SELECT * FROM OrdemdeProducao");
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return retorno;
         } else {
-            int i = 0;
+            QList < QList <QVariant> > valores;
             while (query.next()) {
+                QList <QVariant> dialog;
 
-                ClienteDAO cliDAO(conn);
-                Cliente * cli = cliDAO.getCliente(query.value(1).toInt());
+                QVariant valor0 = query.value(0);
+                QVariant valor1 = query.value(1);
+                QVariant valor2 = query.value(2);
+                QVariant valor3 = query.value(3);
+                QVariant valor4 = query.value(4);
+                QVariant valor5 = query.value(5);
 
-                MaquinaDAO maqDAO(conn);
-                Maquina * maq = maqDAO.getMaquina(query.value(2).toInt());
+                dialog.insert(0,valor0);
+                dialog.insert(1,valor1);
+                dialog.insert(2,valor2);
+                dialog.insert(3,valor3);
+                dialog.insert(4,valor4);
+                dialog.insert(5,valor5);
 
-                OrdemDeProducao dialogOP(query.value(0).toString(), cli, maq, query.value(3).toInt(), query.value(4).toInt(), query.value(5).toDate());
-                retorno.insert(i,dialogOP);
+                valores.insert(i,dialog);
                 i++;
+            }
+
+            for (int i = 0;i < valores.length(); i++) {
+                QList <QVariant> val;
+                val = valores.at(i);
+                ClienteDAO * cliDAO = new ClienteDAO(db);
+                Cliente * cli = cliDAO->getCliente(val.at(1).toInt());
+                MaquinaDAO * maqDAO = new MaquinaDAO(db);
+                Maquina * maq = maqDAO->getMaquina(val.at(2).toInt());
+                OrdemDeProducao * dialog = new OrdemDeProducao(val.at(0).toString(),cli,maq,val.at(3).toInt(),val.at(4).toInt(),val.at(5).toDate());
+                retorno.insert(i,dialog);
             }
         }
         db.close();
@@ -36,26 +55,26 @@ QList <OrdemDeProducao> OrdemDeProducaoDAO::getOPs() {
     return retorno;
 }
 
-OrdemDeProducao *OrdemDeProducaoDAO::getOP(int op) {
+OrdemDeProducao *OrdemDeProducaoDAO::getOP(QString op) {
     OrdemDeProducao * retorno = NULL;
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT OP, CodigoCliente, Maquina, Ordem, QuantidadeProgramada, DataDeEntrega FROM OrdemDeProducao WHERE OP = ?");
+        query.prepare("SELECT OP, CodigoCliente, CodigoMaquina, Ordem, QuantidadeProgramada, DataDeEntrega FROM OrdemDeProducao WHERE OP = ?");
         query.addBindValue(op);
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return retorno;
         } else {
+            if (query.first()) {
+                ClienteDAO cliDAO(db);
+                Cliente * cli = cliDAO.getCliente(query.value(1).toInt());
 
-            ClienteDAO cliDAO(conn);
-            Cliente * cli = cliDAO.getCliente(query.value(1).toInt());
+                MaquinaDAO maqDAO(db);
+                Maquina * maq = maqDAO.getMaquina(query.value(2).toInt());
 
-            MaquinaDAO maqDAO(conn);
-            Maquina * maq = maqDAO.getMaquina(query.value(2).toInt());
-
-            retorno = new OrdemDeProducao(query.value(0).toString(), cli, maq, query.value(3).toInt(), query.value(4).toInt(), query.value(5).toDate());
-
+                retorno = new OrdemDeProducao(query.value(0).toString(), cli, maq, query.value(3).toInt(), query.value(4).toInt(), query.value(5).toDate());
+            }
         }
         db.close();
     } else {

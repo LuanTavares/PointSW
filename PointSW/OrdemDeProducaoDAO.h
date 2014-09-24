@@ -15,11 +15,10 @@ class OrdemDeProducaoDAO {
 private:
     QSqlDatabase db;
     QSqlQuery query;
-    Conexao * conn;
 public:
-    OrdemDeProducaoDAO(Conexao * conn);
-    QList <OrdemDeProducao> getOPs();
-    OrdemDeProducao * getOP(int op);
+    OrdemDeProducaoDAO(QSqlDatabase conn);
+    QList<OrdemDeProducao *> getOPs();
+    OrdemDeProducao * getOP(QString op);
     bool insereOP(OrdemDeProducao op);
     bool atualizaOP(OrdemDeProducao op);
     bool deletaOP(OrdemDeProducao op);

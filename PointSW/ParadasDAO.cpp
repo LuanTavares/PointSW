@@ -1,8 +1,7 @@
 #include "ParadasDAO.h"
 
-ParadasDAO::ParadasDAO(Conexao *conn) {
-    db = conn->getDataBase();
-    this->conn = conn;
+ParadasDAO::ParadasDAO(QSqlDatabase conn) {
+    db = conn;
 }
 
 QList <Parada> ParadasDAO::getParada() {
@@ -18,13 +17,13 @@ QList <Parada> ParadasDAO::getParada() {
             int i = 0;
             while (query.next()) {
 
-                MaquinaDAO maqDAO(conn);
+                MaquinaDAO maqDAO(db);
                 Maquina * maq = maqDAO.getMaquina(query.value(0).toInt());
 
-                OrdemDeProducaoDAO opDAO(conn);
-                OrdemDeProducao * op = opDAO.getOP(query.value(1).toInt());
+                OrdemDeProducaoDAO opDAO(db);
+                OrdemDeProducao * op = opDAO.getOP(query.value(1).toString());
 
-                UsuarioDAO usuDAO(conn);
+                UsuarioDAO usuDAO(db);
                 Usuario * usu = usuDAO.getUsuario(query.value(2).toInt());
 
                 Parada dialogParada(maq,op,usu,query.value(3).toDate(),query.value(4).toInt(),query.value(5).toInt(),query.value(6).toDate(),query.value(7).toInt(),query.value(8).toInt());

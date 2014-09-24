@@ -14,6 +14,16 @@ Setup::Setup(Maquina *maquina, OrdemDeProducao *op, Usuario *usuario, QDate datI
     this->horaFim = horFim;
 }
 
+Setup::Setup(Setup *setup) {
+    this->maquina = new Maquina(setup->getMaquina());
+    this->OP = setup->getOP();
+    this->usuario = setup->getUsuario();
+    this->dataInicio = setup->getDataInicio();
+    this->horaInicio = setup->getHoraInicio();
+    this->dataFim = setup->getDataFim();
+    this->horaFim = setup->getHoraFim();
+}
+
 Setup::~Setup() {
     delete this->maquina;
     delete this->OP;
