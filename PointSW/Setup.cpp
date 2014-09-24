@@ -16,8 +16,8 @@ Setup::Setup(Maquina *maquina, OrdemDeProducao *op, Usuario *usuario, QDate datI
 
 Setup::Setup(Setup *setup) {
     this->maquina = new Maquina(setup->getMaquina());
-    this->OP = setup->getOP();
-    this->usuario = setup->getUsuario();
+    this->OP = new OrdemDeProducao(setup->getOP());
+    this->usuario = new Usuario(setup->getUsuario());
     this->dataInicio = setup->getDataInicio();
     this->horaInicio = setup->getHoraInicio();
     this->dataFim = setup->getDataFim();

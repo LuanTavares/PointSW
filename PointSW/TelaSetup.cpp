@@ -5,7 +5,7 @@ TelaSetup::TelaSetup(Setup *setup, QSqlDatabase conn, QWidget *parent) : QWidget
     db = conn;
     ui->setupUi(this);
     tempoDeSetup = new QTimer();
-    tempoDeSetup->start(60000);
+    tempoDeSetup->start(2000);
     this->setup = new Setup(setup);
 
     connect(tempoDeSetup, SIGNAL(timeout()), this, SLOT(gravaSetup()));
@@ -21,18 +21,19 @@ TelaSetup::~TelaSetup() {
 void TelaSetup::gravaSetup() {
     SetupDAO * setDAO = new SetupDAO(db);
     QDate DatIni;
-    this->setup->setDataInicio(DatIni.currentDate());
     QTime horIni;
-    int qtdMin = (horIni.currentTime().hour() * 60) + horIni.currentTime().minute();
+    int qtdMin = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
+
+    this->setup->setDataInicio(DatIni.currentDate());
     this->setup->setHoraInicio(qtdMin);
-    setDAO->insereSetup(new Setup(this->setup));
-    OrdemDeProducao * op = new OrdemDeProducao(this->setup->getOP());
+
+    Setup * dialog = new Setup(this->setup);
+    OrdemDeProducao * op = new OrdemDeProducao(dialog->getOP());
+
+    setDAO->insereSetup(dialog);
     ui->lineEditOP->setText(op->getOP());
+
     this->update();
-    QTime qtdHorAtu;
-    qtd++;
-    qtdHorAtu.setHMS(0,qtd,0);
-    ui->timeEditTempo->setTime(qtdHorAtu);
 }
 
 void TelaSetup::finalizaSetup() {
