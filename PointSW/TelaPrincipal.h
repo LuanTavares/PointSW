@@ -27,6 +27,7 @@ private:
 
 public slots:
     void startaTempoDeSetup();
+    void carrgaFilaDeProducao();
 };
 
 #endif // TELAPRINCIPAL_H

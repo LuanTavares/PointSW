@@ -5,15 +5,25 @@ TelaSetup::TelaSetup(Setup *setup, QSqlDatabase conn, QWidget *parent) : QWidget
     db = conn;
     ui->setupUi(this);
     tempoDeSetup = new QTimer();
-    tempoDeSetup->start(2000);
+    atualizaTempoDeSetupTela = new QTimer();
+    tempoDeSetup->start(60000);
+    atualizaTempoDeSetupTela->start(1000);
+    dialogTime = QTime();
+    dialogTime.setHMS(0,0,0,0);
     this->setup = new Setup(setup);
 
+    gravaSetup();
+
     connect(tempoDeSetup, SIGNAL(timeout()), this, SLOT(gravaSetup()));
+    connect(atualizaTempoDeSetupTela, SIGNAL(timeout()), this, SLOT(atualizaTela()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(finalizaSetup()));
 }
 
 TelaSetup::~TelaSetup() {
     delete ui;
+    delete atualizaTempoDeSetupTela;
+    delete tempoDeSetup;
+    delete setup;
 }
 
 // Slots
@@ -50,4 +60,10 @@ void TelaSetup::finalizaSetup() {
     int qtdMinFim = (horFim.currentTime().hour() * 60) + horFim.currentTime().minute();
     this->setup->setHoraFim(qtdMinFim);
     setDAO->insereSetup(this->setup);
+}
+
+void TelaSetup::atualizaTela() {
+    dialogTime = dialogTime.addSecs(1);
+    ui->timeEditTempo->setTime(dialogTime);
+    this->update();
 }

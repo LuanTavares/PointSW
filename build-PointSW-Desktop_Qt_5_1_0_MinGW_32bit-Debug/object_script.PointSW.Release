@@ -20,6 +20,7 @@ INPUT(
 ./release\TelaPrincipal.o
 ./release\TelaSetup.o
 ./release\TelaDeLogin.o
+./release\qrc_Arquivos.o
 ./release\moc_TelaPrincipal.o
 ./release\moc_TelaSetup.o
 ./release\moc_TelaDeLogin.o

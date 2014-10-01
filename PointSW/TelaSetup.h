@@ -18,13 +18,16 @@ public:
 private:
     Ui::TelaSetup *ui;
     QTimer * tempoDeSetup;
+    QTimer * atualizaTempoDeSetupTela;
     Setup * setup;
     QSqlDatabase db;
     int qtd;
+    QTime dialogTime;
 
 public slots:
     void gravaSetup();
     void finalizaSetup();
+    void atualizaTela();
 };
 
 #endif // TELASETUP_H

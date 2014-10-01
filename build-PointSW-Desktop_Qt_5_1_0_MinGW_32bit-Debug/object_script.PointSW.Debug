@@ -20,6 +20,7 @@ INPUT(
 ./debug\TelaPrincipal.o
 ./debug\TelaSetup.o
 ./debug\TelaDeLogin.o
+./debug\qrc_Arquivos.o
 ./debug\moc_TelaPrincipal.o
 ./debug\moc_TelaSetup.o
 ./debug\moc_TelaDeLogin.o

@@ -50,12 +50,12 @@ public:
         lineEditOP->setFont(font);
         label = new QLabel(TelaSetup);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(9, 81, 70, 20));
+        label->setGeometry(QRect(6, 81, 70, 21));
         label->setFont(font);
         timeEditTempo = new QTimeEdit(TelaSetup);
         timeEditTempo->setObjectName(QStringLiteral("timeEditTempo"));
         timeEditTempo->setEnabled(false);
-        timeEditTempo->setGeometry(QRect(78, 81, 101, 22));
+        timeEditTempo->setGeometry(QRect(77, 80, 110, 30));
         timeEditTempo->setFont(font);
         pushButton = new QPushButton(TelaSetup);
         pushButton->setObjectName(QStringLiteral("pushButton"));

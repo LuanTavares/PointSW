@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Imagens">
+        <file>Arquivos/Sopasta - Logotipo JPEG.png</file>
+    </qresource>
+</RCC>

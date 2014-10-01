@@ -9,7 +9,7 @@ QList <OrdemDeProducao *> OrdemDeProducaoDAO::getOPs() {
     int i = 0;
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT * FROM OrdemdeProducao");
+        query.prepare("SELECT * FROM OrdemdeProducao ORDER BY ordem");
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();

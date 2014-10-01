@@ -40,7 +40,7 @@ public:
     {
         if (TelaPrincipal->objectName().isEmpty())
             TelaPrincipal->setObjectName(QStringLiteral("TelaPrincipal"));
-        TelaPrincipal->resize(800, 599);
+        TelaPrincipal->resize(1024, 599);
         QFont font;
         font.setFamily(QStringLiteral("Trebuchet MS"));
         font.setPointSize(12);
@@ -87,7 +87,7 @@ public:
         TelaPrincipal->setCentralWidget(centralwidget);
         menubar = new QMenuBar(TelaPrincipal);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 28));
+        menubar->setGeometry(QRect(0, 0, 1024, 21));
         menuMenu = new QMenu(menubar);
         menuMenu->setObjectName(QStringLiteral("menuMenu"));
         TelaPrincipal->setMenuBar(menubar);

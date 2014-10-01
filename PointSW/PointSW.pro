@@ -50,3 +50,6 @@ FORMS += \
     TelaSetup.ui \
     TelaDeLogin.ui
 
+RESOURCES += \
+    Arquivos.qrc
+
