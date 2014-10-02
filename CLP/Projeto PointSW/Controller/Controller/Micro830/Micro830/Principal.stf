@@ -1,0 +1,51 @@
+PROGRAM Principal
+#info= QLD
+BOF
+
+
+(*Contato que vem da rede para liberar a maquina*)
+
+SOR  [0,1] (**) (**)  XIC  [1,0] (*Libera_Maquina*) (**)  OTS  [2,0] (*_IO_EM_DO_00*) (*Maquina_liberada*)
+EOR [3,0]
+
+
+(*Contato que vem da rede para bloquear a máquina*)
+
+SOR  [0,3] (**) (**)  XIC  [1,0] (*Bloqueia_Maquina*) (**)  OTR  [2,0] (*_IO_EM_DO_00*) (*Maquina_liberada*)
+EOR [3,0]
+
+
+(*Status maquina*)
+
+SOR  [0,5] (**) (**)  XIC  [1,0] (*_IO_EM_DI_00*) (*Maquina Rodando*)  OTE  [2,0] (*Rodando*) (**)
+EOR [3,0]
+
+
+(**)
+
+SOR  [0,7] (**) (**)  XIC  [1,0] (*_IO_EM_DI_00*) (*Maquina Rodando*)  XIC  [2,0] (*_IO_EM_DI_01*) (*Maquina_introduzindo*)  OTE  [3,0] (*Produzindo*) (**)
+EOR [4,0]
+
+
+(**)
+
+SOR  [0,9] (**) (**)  XIC  [1,0] (*_IO_EM_DI_02*) (*Contagem*)  FB  [2,0] (*CTU*) (*CTU_1*) ( (*CU:CU*)(**) (**)  , (*RESET:RESE*)(*Reset_Contagem*) (**)  , (*PV:PV*)(*Preset*) (**) ; (*Q:Q*)(**) (**)  , (*CV:CV*)(*Qtd_Pedida*) (**) )  OTE  [5,0] (*count_1_OK*) (**)
+EOR [6,0]
+
+
+(**)
+
+SOR  [0,13] (**) (**)  XIC  [1,0] (*count_1_OK*) (**)  XIC  [2,0] (*_IO_EM_DI_02*) (*Contagem*)  FB  [3,0] (*CTU*) (*CTU_2*) ( (*CU:CU*)(**) (**)  , (*RESET:RESE*)(*Reset_Contagem*) (**)  , (*PV:PV*)(*Qtd_Pedida*) (**) ; (*Q:Q*)(**) (**)  , (*CV:CV*)(*Excedente*) (**) )
+EOR [6,0]
+
+
+(**)
+
+SOR  [0,17] (**) (**)  FB  [1,0] (*+*) (*1*) ( (*EN:EN*)(**) (**)  , (*i1:*)(*Qtd_Pedida*) (**)  , (*i2:*)(*Excedente*) (**) ; (*ENO:ENO*)(**) (**)  , (*o1:*)(*Total_Contado*) (**) )
+EOR [4,0]
+EOF
+#end_info
+#info= ID_MAX
+NextId=1
+#end_info
+END_PROGRAM

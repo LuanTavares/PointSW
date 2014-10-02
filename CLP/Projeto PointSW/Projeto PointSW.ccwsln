@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# CCW Solution File, CCW Software 6.0
+Project("{A6F45E2C-46AC-4E2B-9F75-4E058226B5AB}") = "Controller", "Controller\Controller.acfproj", "{5FD052E0-8361-4240-A667-F20EB3E31C7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		On-line|Any CPU = On-line|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FD052E0-8361-4240-A667-F20EB3E31C7F}.On-line|Any CPU.ActiveCfg = On-line|Any CPU
+		{5FD052E0-8361-4240-A667-F20EB3E31C7F}.On-line|Any CPU.Build.0 = On-line|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

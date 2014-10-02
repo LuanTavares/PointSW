@@ -1,0 +1,7 @@
+<modbusServer Version="2.0">
+  <modbusRegister name="INPUT_REGISTERS">
+    <mapping variable="Preset@Principal" parent="Principal" dataType="Dint" address="300001">
+      <MBVarInfo ElemType="Dint" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+  </modbusRegister>
+</modbusServer>
