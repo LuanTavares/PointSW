@@ -2,9 +2,12 @@
 #define TELAPRINCIPAL_H
 
 #include <QMainWindow>
+#include <QPushButton>
 #include "OrdemDeProducaoDAO.h"
-#include "TelaSetup.h"
+#include "TelaDeSetup.h"
 #include "Usuario.h"
+#include "Serial.h"
+
 namespace Ui {
     class TelaPrincipal;
 }
@@ -20,14 +23,17 @@ private:
     Ui::TelaPrincipal *ui;
     OrdemDeProducaoDAO *opDAO;
     QSqlDatabase db;
-    TelaSetup * tempoDeSetup;
+    TelaDeSetup * tempoDeSetup;
     Setup * setup;
     Usuario * usuAtu;
     QList <OrdemDeProducao *> ops;
+    Serial * portaDeComunicacao;
 
 public slots:
     void startaTempoDeSetup();
     void carrgaFilaDeProducao();
+    void atualizaTempoDeSetup(QTime tempo);
+    void selecionaPortaSerial();
 };
 
 #endif // TELAPRINCIPAL_H

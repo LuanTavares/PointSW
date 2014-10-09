@@ -1,4 +1,4 @@
-QT += widgets sql
+QT += widgets sql serialport
 
 HEADERS += \
     Conexao.h \
@@ -19,8 +19,10 @@ HEADERS += \
     ParadasDAO.h \
     ApontamentoDAO.h \
     TelaPrincipal.h \
-    TelaSetup.h \
-    TelaDeLogin.h
+    TelaDeLogin.h \
+    Botao.h \
+    TelaDeSetup.h \
+    Serial.h
 
 SOURCES += \
     Conexao.cpp \
@@ -42,13 +44,15 @@ SOURCES += \
     ParadasDAO.cpp \
     ApontamentoDAO.cpp \
     TelaPrincipal.cpp \
-    TelaSetup.cpp \
-    TelaDeLogin.cpp
+    TelaDeLogin.cpp \
+    Botao.cpp \
+    TelaDeSetup.cpp \
+    Serial.cpp
 
 FORMS += \
     TelaPrincipal.ui \
-    TelaSetup.ui \
-    TelaDeLogin.ui
+    TelaDeLogin.ui \
+    Serial.ui
 
 RESOURCES += \
     Arquivos.qrc

@@ -132,16 +132,31 @@ bool SetupDAO::insereSetup(Setup setup) {
 
 bool SetupDAO::atualizaSetup(Setup setup) {
     if(db.open()) {
-        query = QSqlQuery(db);
+        query = QSqlQuery(db);/*
         query.prepare("UPDATE Setup SET DataFim = ?, HoraFim = ? WHERE CodigoMaquina = ? AND OP = ? AND CodigoUsuario = ? AND DataInicio = ? AND HoraInicio = ?");
-        query.addBindValue(setup.getDataFim());
+        query.addBindValue(setup.getDataFim().toString("dd/MM/yyyy"));
         query.addBindValue(setup.getHoraFim());
         query.addBindValue(setup.getMaquina()->getCodigoMaquina());
         query.addBindValue(setup.getOP()->getOP());
         query.addBindValue(setup.getUsuario()->getCodigoUsuario());
-        query.addBindValue(setup.getDataInicio());
+        query.addBindValue(setup.getDataInicio().toString("dd/MM/yyyy"));
         query.addBindValue(setup.getHoraInicio());
-        if(!query.exec()){
+
+        if (query.isValid()) {
+            std::cout << "OK" << std::endl;
+        } else {
+            std::cout << "Not OK" << std::endl;
+        }
+*/
+        QString sql = "UPDATE Setup SET DataFim = '"+ setup.getDataFim().toString("dd/MM/yyyy");
+        sql += "', HoraFim = "+ QString::number(setup.getHoraFim())+ "WHERE CodigoMaquina = "+QString::number(setup.getMaquina()->getCodigoMaquina());
+        sql += " AND OP = '" + setup.getOP()->getOP() + "' AND CodigoUsuario = " + QString::number(setup.getUsuario()->getCodigoUsuario());
+        sql += " AND DataInicio = '"+ setup.getDataInicio().toString("dd/MM/yyyy");
+        sql += "' AND HoraInicio = " +QString::number(setup.getHoraInicio());
+
+        std::cout << sql.toStdString() << std::endl;
+
+        if(!query.exec(sql)){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return false;

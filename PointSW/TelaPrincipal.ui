@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>599</height>
+    <width>1280</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="font">
@@ -25,8 +25,8 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>781</width>
-      <height>551</height>
+      <width>1261</width>
+      <height>651</height>
      </rect>
     </property>
     <property name="font">
@@ -46,16 +46,16 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>-1</y>
-        <width>770</width>
-        <height>530</height>
+        <y>0</y>
+        <width>1241</width>
+        <height>601</height>
        </rect>
       </property>
       <property name="rowCount">
        <number>0</number>
       </property>
       <property name="columnCount">
-       <number>6</number>
+       <number>9</number>
       </property>
       <attribute name="horizontalHeaderCascadingSectionResizes">
        <bool>true</bool>
@@ -129,6 +129,39 @@
         <string/>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>Tempo de Setup</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Trebuchet MS</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Tempo de Produção</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Trebuchet MS</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Paradas</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Trebuchet MS</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+      </column>
      </widget>
     </widget>
    </widget>
@@ -138,7 +171,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1280</width>
      <height>21</height>
     </rect>
    </property>
