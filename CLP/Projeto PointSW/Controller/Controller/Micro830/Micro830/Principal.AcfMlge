@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Root Version="5">
   <LanguageContainerStyle DisplayGrid="true" FunctionBlockInstanceName="true" VariableDisplayMode="NameAndAlias" VariableAlpha="255" VariableTextColor="windowtext" VariableOnlineTextColor="Red" VariableBackgroundColor="SteelBlue" VariableGradientColor="LightSteelBlue" CellWidth="100" CellHeight="50" RungAllAligned="true" RungColor="SteelBlue" LabelColor="LightBlue" CommentColor="LightGreen" PowerRailColor="#FFCCCFE8" Index="0">
     <ShapeStyle Type="ISaGRAF.Workbench.Mlge.LanguageContainer.LD.Shape.WbLdRungShape" Assembly="ISaGRAF.Workbench.Mlge.LanguageContainer.LD" RungColor="SteelBlue" CommentColor="LightGreen" LabelColor="LightBlue" Key="[0,1]">

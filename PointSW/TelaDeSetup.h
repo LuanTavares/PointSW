@@ -21,6 +21,7 @@ private:
 public slots:
     void gravaSetup();
     void atualizaTela();
+    void acabouSetup();
 
 signals:
     void atualizaTelaPrincipal(QTime tempo);

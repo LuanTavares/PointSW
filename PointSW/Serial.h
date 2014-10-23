@@ -18,10 +18,11 @@ public:
     explicit Serial(QString porta, QWidget *parent = 0);
     ~Serial();
     void listaPortas();
-    QByteArray solicitaleitura(int endereco, int qtdRegistros);
+    QByteArray solicitaleitura(int endereco, int funcao, int registroInicial, int qtdRegistros);
 
 public slots:
     void selecionaPorta(int porta);
+    void gravaPortaSerial();
     
 private:
     Ui::Serial *ui;

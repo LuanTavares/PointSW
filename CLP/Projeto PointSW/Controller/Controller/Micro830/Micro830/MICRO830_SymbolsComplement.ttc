@@ -1,0 +1,8 @@
+[BEGIN FB INPUTS]
+I1=micro830.micro830.principal/ctu_1.cu,0x41C,BOOL
+I2=micro830.micro830.principal/ctu_1.reset,0x444,BOOL
+I3=micro830.micro830.principal/ctu_1.pv,0x464,DINT
+I4=micro830.micro830.principal/ctu_2.cu,0x11C4,BOOL
+I5=micro830.micro830.principal/ctu_2.reset,0x444,BOOL
+I6=micro830.micro830.principal/ctu_2.pv,0x468,DINT
+[END]

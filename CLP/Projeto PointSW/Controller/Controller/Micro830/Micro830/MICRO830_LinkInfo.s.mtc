@@ -1,0 +1,9 @@
+[MEMORY]
+Offset0=0x9B0
+Offset1=0x11B0
+Offset2=0x11B0
+Offset3=0x11B0
+Memory Usage Estimate(Code)=0x138
+Memory Usage Estimate(Data)=0x39B4
+Memory Usage Estimate(Retain)=0x0
+Offset4=0x414

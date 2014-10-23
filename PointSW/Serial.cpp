@@ -12,16 +12,17 @@ Serial::Serial(QString porta, QWidget *parent) : QDialog(parent), ui(new Ui::Ser
         }
     } else {
         portaSelecionada.setPortName(porta);
-        portaSelecionada.setBaudRate(QSerialPort::Baud115200);
+        portaSelecionada.setBaudRate(QSerialPort::Baud19200);
         portaSelecionada.setDataBits(QSerialPort::Data8);
         portaSelecionada.setParity(QSerialPort::NoParity);
-        portaSelecionada.setStopBits(QSerialPort::OneStop);
+        portaSelecionada.setStopBits(QSerialPort::TwoStop);
         if (portaSelecionada.open(QIODevice::ReadWrite)) {
             portaSelecionada.close();
         }
     }
 
     connect(ui->comboBoxPortasSeriais, SIGNAL(currentIndexChanged(int)),this,SLOT(selecionaPorta(int)));
+    connect(ui->pushButtonSalvar, SIGNAL(clicked()), SLOT(gravaPortaSerial()));
 
 }
 
@@ -41,37 +42,39 @@ void Serial::listaPortas() {
 
 void Serial::selecionaPorta(int porta) {
     portaSelecionada.setPort(listaDePortasSeriais.at(porta-1));
-    portaSelecionada.setBaudRate(QSerialPort::Baud115200);
+    portaSelecionada.setBaudRate(QSerialPort::Baud19200);
     portaSelecionada.setDataBits(QSerialPort::Data8);
     portaSelecionada.setParity(QSerialPort::NoParity);
-    portaSelecionada.setStopBits(QSerialPort::OneStop);
+    portaSelecionada.setStopBits(QSerialPort::TwoStop);
     if (portaSelecionada.open(QIODevice::ReadWrite)) {
         portaSelecionada.close();
     }
 }
 
-QByteArray Serial::solicitaleitura(int endereco, int qtdRegistros) {
+void Serial::gravaPortaSerial() {
+    // Implementar gravação no banco de dados.
+    this->close();
+}
+
+QByteArray Serial::solicitaleitura(int endereco, int funcao, int registroInicial, int qtdRegistros) {
     QByteArray retorno;
     retorno.clear();
 
+
     if (portaSelecionada.open(QIODevice::ReadWrite)) {
 
-        QString enderecoASerLido;
-        enderecoASerLido.setNum(endereco,16);
+        QDataStream dialogDataStream(&retorno, QIODevice::WriteOnly);
+        dialogDataStream.setByteOrder(QDataStream::LittleEndian);
+        dialogDataStream << quint8(endereco) << quint8(funcao) << quint16(registroInicial) << quint16(qtdRegistros);
+        dialogDataStream << quint16(qChecksum(retorno.constData(),retorno.size()));
 
-        QString qtdRegistrosASeremLidos;
-        qtdRegistrosASeremLidos.setNum(qtdRegistros,16);
-
-        QByteArray solicitacao;
-        solicitacao = "TX:0103"+enderecoASerLido.toLatin1()+qtdRegistrosASeremLidos.toLatin1()+"CRCCRC";
-        portaSelecionada.write(solicitacao);
-        //qDebug() << solicitacao;
+        portaSelecionada.write(retorno);
+        qDebug() << retorno;
 
         retorno = portaSelecionada.readAll();
-        //qDebug() << retorno;
+        qDebug() << retorno;
 
-        ui->labelPortaSeriais->setText(QString(retorno));
+        //ui->labelPortaSeriais->setText(QString(retorno));
     }
     return retorno;
 }
-

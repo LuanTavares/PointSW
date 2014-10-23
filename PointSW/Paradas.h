@@ -18,6 +18,7 @@ private:
 public:
     Parada();
     Parada(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim, int motivo);
+    Parada(Parada * parada);
     ~Parada();
 
     // Gets

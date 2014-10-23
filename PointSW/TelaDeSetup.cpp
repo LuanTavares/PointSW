@@ -56,3 +56,8 @@ void TelaDeSetup::atualizaTela() {
     tempoDeStup = tempoDeStup.addSecs(1);
     emit atualizaTelaPrincipal(tempoDeStup);
 }
+
+void TelaDeSetup::acabouSetup() {
+    this->gravaTempoSetup->stop();
+    this->atualizaTempoDeSetupTela->stop();
+}

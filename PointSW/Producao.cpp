@@ -15,6 +15,18 @@ Producao::Producao(Maquina *maquina, OrdemDeProducao *OP, Usuario *usuario, QDat
     this->status = status;
 }
 
+Producao::Producao(Producao * producao) {
+    this->maquina = new Maquina(producao->getMaquina());
+    this->OP = new OrdemDeProducao(producao->getOP());
+    this->usuario = new Usuario(producao->getUsuario());
+    this->dataInicio = producao->getDataInicio();
+    this->horaInicio = producao->getHoraInicio();
+    this->contagem = producao->getContagem();
+    this->dataFim = producao->getDataFim();
+    this->horaFim = producao->getHoraFim();
+    this->status = producao->getStatus();
+}
+
 Producao::~Producao() {
     delete this->maquina;
     delete this->OP;

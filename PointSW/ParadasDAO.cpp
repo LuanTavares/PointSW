@@ -39,6 +39,41 @@ QList <Parada> ParadasDAO::getParada() {
     return retorno;
 }
 
+QList <Parada> ParadasDAO::getParadasSemMotivo() {
+    QList <Parada> retorno;
+    if(db.open()) {
+        query = QSqlQuery(db);
+        query.prepare("SELECT CodigoMaquina, OP, CodigoUsuario, DataInicio, HoraInicio, Sequencia, DataFim, HoraFim, Motivo FROM Paradas WHERE Motivo = 0");
+        if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return retorno;
+        } else {
+            int i = 0;
+            while (query.next()) {
+
+                MaquinaDAO maqDAO(db);
+                Maquina * maq = maqDAO.getMaquina(query.value(0).toInt());
+
+                OrdemDeProducaoDAO opDAO(db);
+                OrdemDeProducao * op = opDAO.getOP(query.value(1).toString());
+
+                UsuarioDAO usuDAO(db);
+                Usuario * usu = usuDAO.getUsuario(query.value(2).toInt());
+
+                Parada dialogParada(maq,op,usu,query.value(3).toDate(),query.value(4).toInt(),query.value(5).toInt(),query.value(6).toDate(),query.value(7).toInt(),query.value(8).toInt());
+                retorno.insert(i,dialogParada);
+
+                i++;
+            }
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+}
+
 bool ParadasDAO::insereParada(Parada parada) {
     if(db.open()) {
         query = QSqlQuery(db);

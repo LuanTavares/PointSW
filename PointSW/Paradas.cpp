@@ -16,6 +16,18 @@ Parada::Parada(Maquina *maquina, OrdemDeProducao *op, Usuario *usuario, QDate da
     this->motivo = motivo;
 }
 
+Parada::Parada(Parada *parada) {
+    this->maquina = new Maquina(parada->getMaquina());
+    this->OP = new OrdemDeProducao(parada->getOP());
+    this->usuario = new Usuario(parada->getUsuario());
+    this->dataInicio = parada->getDataInicio();
+    this->horaInicio = parada->getHoraInicio();
+    this->sequencia = parada->getSequencia();
+    this->dataFim = parada->getDataFim();
+    this->horaFim = parada->getHoraFim();
+    this->motivo = parada->getMotivo();
+}
+
 Parada::~Parada() {
     delete this->maquina;
     delete this->OP;

@@ -3,20 +3,36 @@
 
 
 TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent) : QMainWindow(parent), ui(new Ui::TelaPrincipal) {
-    ui->setupUi(this);    
+    ui->setupUi(this);
     this->setWindowTitle("Fila de Produção");
     db = conn;
     opDAO = new OrdemDeProducaoDAO(db);
     this->usuAtu = new Usuario(usuAtu);
+    leDadosImpressora = new QTimer();
     connect(ui->actionSelecionar_Porta_Serial,SIGNAL(triggered()),this,SLOT(selecionaPortaSerial()));
-    carrgaFilaDeProducao();
+    connect(this->leDadosImpressora, SIGNAL(timeout()), this, SLOT(leDados()));
+
+    if (paradas.isEmpty()) {
+        carrgaFilaDeProducao();
+    } else {
+        for(int i=0;i <paradas.size();i++) {
+
+        }
+    }
 }
 
 TelaPrincipal::~TelaPrincipal() {
     delete ui;
 }
 
-// Signals
+// Métodos
+
+QList <Parada> TelaPrincipal::retornaParadasSemMotivo() {
+    ParadasDAO * paradasDAO = new ParadasDAO(db);
+    paradas = paradasDAO->getParadasSemMotivo();
+}
+
+// Slots
 void TelaPrincipal::startaTempoDeSetup() {
     OrdemDeProducao * op = ops.at(0);
     QDate datIni;
@@ -28,13 +44,26 @@ void TelaPrincipal::startaTempoDeSetup() {
 
     connect(tempoDeSetup, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeSetup(QTime)));
 
-    QWidget * a = ui->filaDeProducao->indexWidget(ui->filaDeProducao->model()->index(0,5));
-    QPushButton * b = new QPushButton(a);
-    b->setEnabled(false);
-    ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(0,5),b);
+    botoes.at(0)->setEnabled(false);
+
+    leDadosImpressora->start(60000);
     this->update();
 
 }
+
+void TelaPrincipal::startaTempoDeProducao() {
+    OrdemDeProducao * op = ops.at(0);
+    QDate datIni;
+    QTime horIni;
+    QDate datFim;
+    Maquina * maq = new Maquina(op->getMaquina());
+    producao = new Producao(maq,op,usuAtu,datIni.currentDate(),horIni.currentTime().minute(),0,datFim,0,0);
+    tempoDeProducao = new TelaDeProducao(producao,db);
+
+    connect(tempoDeProducao, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeProducao(QTime)));
+
+}
+
  void TelaPrincipal::carrgaFilaDeProducao() {
 
      ops = opDAO->getOPs();
@@ -64,24 +93,25 @@ void TelaPrincipal::startaTempoDeSetup() {
          lineDataEntrega->setEnabled(false);
          ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,4),lineDataEntrega);
 
+         QTime * dialogTime = new QTime(0,0,0);
+         QLineEdit * lineTempoDeSetup = new QLineEdit(dialogTime->toString("HH:mm:ss"));
+         lineTempoDeSetup->setEnabled(false);
+         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,5),lineTempoDeSetup);
+
+         QLineEdit * lineTempoDeProducao = new QLineEdit(dialogTime->toString("HH:mm:ss"));
+         lineTempoDeProducao->setEnabled(false);
+         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,6),lineTempoDeProducao);
+
+         QLineEdit * lineParadas = new QLineEdit(QString::number(0));
+         lineParadas->setEnabled(false);
+         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,7),lineParadas);
+
          QPushButton * dialogButton = new QPushButton("Iniciar Setup");
          if(i!=0) {
              dialogButton->setEnabled(false);
          }
-         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,5),dialogButton);
-
-         QTime * dialogTime = new QTime(0,0,0);
-         QLineEdit * lineTempoDeSetup = new QLineEdit(dialogTime->toString("HH:mm:ss"));
-         lineTempoDeSetup->setEnabled(false);
-         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,6),lineTempoDeSetup);
-
-         QLineEdit * lineTempoDeProducao = new QLineEdit(dialogTime->toString("HH:mm:ss"));
-         lineTempoDeProducao->setEnabled(false);
-         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,7),lineTempoDeProducao);
-
-         QLineEdit * lineParadas = new QLineEdit(QString::number(0));
-         lineParadas->setEnabled(false);
-         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,8),lineParadas);
+         botoes.insert(i,dialogButton);
+         ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(i,8),dialogButton);
 
          ui->filaDeProducao->setRowHeight(i,70);
          connect(dialogButton, SIGNAL(clicked()), this, SLOT(startaTempoDeSetup()));
@@ -92,10 +122,10 @@ void TelaPrincipal::startaTempoDeSetup() {
      ui->filaDeProducao->setColumnWidth(2,300);     // Cliente
      ui->filaDeProducao->setColumnWidth(3,100);     // Quantidade
      ui->filaDeProducao->setColumnWidth(4,80);      // Data de Entrega
-     ui->filaDeProducao->setColumnWidth(5,120);     // Botão
-     ui->filaDeProducao->setColumnWidth(6,130);     // Tempo de Setup
-     ui->filaDeProducao->setColumnWidth(7,150);     // Tempo de Produção
-     ui->filaDeProducao->setColumnWidth(8,70);      // Quantidade de Paradas
+     ui->filaDeProducao->setColumnWidth(5,130);     // Tempo de Setup
+     ui->filaDeProducao->setColumnWidth(6,150);     // Tempo de Produção
+     ui->filaDeProducao->setColumnWidth(7,70);      // Quantidade de Paradas
+     ui->filaDeProducao->setColumnWidth(8,120);     // Botão
 
      update();
  }
@@ -103,17 +133,30 @@ void TelaPrincipal::startaTempoDeSetup() {
  void TelaPrincipal::atualizaTempoDeSetup(QTime tempo) {
      QLineEdit * lineTempoDeSetup = new QLineEdit(tempo.toString("HH:mm:ss"));
      lineTempoDeSetup->setEnabled(false);
-     ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(0,6),lineTempoDeSetup);
+     ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(0,5),lineTempoDeSetup);
+     this->update();
+ }
+
+ void TelaPrincipal::atualizaTempoDeProducao(QTime tempo) {
+     QLineEdit * lineTempoDeProducao = new QLineEdit(tempo.toString("HH:mm:ss"));
+     lineTempoDeProducao->setEnabled(false);
+     ui->filaDeProducao->setIndexWidget(ui->filaDeProducao->model()->index(0,6),lineTempoDeProducao);
      this->update();
  }
 
  void TelaPrincipal::selecionaPortaSerial() {
-
      portaDeComunicacao = new Serial("");
-
      portaDeComunicacao->show();
+ }
 
-     portaDeComunicacao->solicitaleitura(300001,1);
+ void TelaPrincipal::leDados() {
+     // Le dados da porta serial
+     if (true/* Implementar para saber se já saiu do setup */) {
+         tempoDeSetup->acabouSetup();
+         delete tempoDeSetup;
+         // Starta tempo de produção
+         startaTempoDeProducao();
+     } else {
 
-
+     }
  }

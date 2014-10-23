@@ -21,6 +21,7 @@ private:
 public:
     ParadasDAO(QSqlDatabase conn);
     QList <Parada> getParada();
+    QList <Parada> getParadasSemMotivo();
     bool insereParada(Parada parada);
     bool atualizaParada(Parada parada);
     bool deletaParada(Parada parada);

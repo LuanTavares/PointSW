@@ -22,7 +22,9 @@ HEADERS += \
     TelaDeLogin.h \
     Botao.h \
     TelaDeSetup.h \
-    Serial.h
+    Serial.h \
+    TelaDeProducao.h \
+    TelaDeParada.h
 
 SOURCES += \
     Conexao.cpp \
@@ -47,12 +49,15 @@ SOURCES += \
     TelaDeLogin.cpp \
     Botao.cpp \
     TelaDeSetup.cpp \
-    Serial.cpp
+    Serial.cpp \
+    TelaDeProducao.cpp \
+    TelaDeParada.cpp
 
 FORMS += \
     TelaPrincipal.ui \
     TelaDeLogin.ui \
-    Serial.ui
+    Serial.ui \
+    TelaDeParada.ui
 
 RESOURCES += \
     Arquivos.qrc

@@ -18,6 +18,7 @@ private:
 public:
     Producao();
     Producao(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int contagem, QDate datFim, int HorFim, int status);
+    Producao(Producao * producao);
     ~Producao();
 
     // Gets
