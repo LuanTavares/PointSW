@@ -4,23 +4,28 @@
 
 Serial::Serial(QString porta, QWidget *parent) : QDialog(parent), ui(new Ui::Serial) {
     ui->setupUi(this);
-    if (!porta.size() > 0) {
-        listaPortas();
-        listaDePortas.push_front(" ");
-        for (int i=0;i < listaDePortas.size(); i++) {
-            ui->comboBoxPortasSeriais->addItem(listaDePortas.at(i));
-        }
-    } else {
-        portaSelecionada.setPortName(porta);
-        portaSelecionada.setBaudRate(QSerialPort::Baud19200);
-        portaSelecionada.setDataBits(QSerialPort::Data8);
-        portaSelecionada.setParity(QSerialPort::NoParity);
-        portaSelecionada.setStopBits(QSerialPort::TwoStop);
-        if (portaSelecionada.open(QIODevice::ReadWrite)) {
-            portaSelecionada.close();
-        }
+    portaSelecionada.setPortName(porta);
+    portaSelecionada.setBaudRate(QSerialPort::Baud19200);
+    portaSelecionada.setDataBits(QSerialPort::Data8);
+    portaSelecionada.setParity(QSerialPort::NoParity);
+    portaSelecionada.setStopBits(QSerialPort::TwoStop);
+    if (portaSelecionada.open(QIODevice::ReadWrite)) {
+        portaSelecionada.close();
     }
 
+    connect(ui->comboBoxPortasSeriais, SIGNAL(currentIndexChanged(int)),this,SLOT(selecionaPorta(int)));
+    connect(ui->pushButtonSalvar, SIGNAL(clicked()), SLOT(gravaPortaSerial()));
+
+}
+
+Serial::Serial(QSqlDatabase conn, QWidget *parent) : QDialog(parent), ui(new Ui::Serial) {
+    ui->setupUi(this);
+    this->db = conn;
+    listaDePortas.push_front(" ");
+    listaPortas();
+    for (int i=0;i < listaDePortas.size(); i++) {
+        ui->comboBoxPortasSeriais->addItem(listaDePortas.at(i));
+    }
     connect(ui->comboBoxPortasSeriais, SIGNAL(currentIndexChanged(int)),this,SLOT(selecionaPorta(int)));
     connect(ui->pushButtonSalvar, SIGNAL(clicked()), SLOT(gravaPortaSerial()));
 
@@ -52,7 +57,8 @@ void Serial::selecionaPorta(int porta) {
 }
 
 void Serial::gravaPortaSerial() {
-    // Implementar gravação no banco de dados.
+    SerialDAO * dialogDAO = new SerialDAO(db);
+    dialogDAO->setPortaSerial(portaSelecionada.portName());
     this->close();
 }
 

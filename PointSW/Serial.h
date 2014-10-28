@@ -6,6 +6,8 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QList>
 #include <iostream>
+#include "SerialDAO.h"
+#include "Conexao.h"
 
 namespace Ui {
     class Serial;
@@ -16,6 +18,7 @@ class Serial : public QDialog {
     
 public:
     explicit Serial(QString porta, QWidget *parent = 0);
+    explicit Serial(QSqlDatabase conn, QWidget *parent = 0);
     ~Serial();
     void listaPortas();
     QByteArray solicitaleitura(int endereco, int funcao, int registroInicial, int qtdRegistros);
@@ -26,6 +29,7 @@ public slots:
     
 private:
     Ui::Serial *ui;
+    QSqlDatabase db;
     QSerialPort portaSelecionada;
     QList <QString> listaDePortas;
     QList <QSerialPortInfo> listaDePortasSeriais;

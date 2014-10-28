@@ -1,4 +1,4 @@
-QT += widgets sql serialport
+QT += widgets sql serialport network
 
 HEADERS += \
     Conexao.h \
@@ -24,7 +24,8 @@ HEADERS += \
     TelaDeSetup.h \
     Serial.h \
     TelaDeProducao.h \
-    TelaDeParada.h
+    TelaDeParada.h \
+    SerialDAO.h
 
 SOURCES += \
     Conexao.cpp \
@@ -51,7 +52,8 @@ SOURCES += \
     TelaDeSetup.cpp \
     Serial.cpp \
     TelaDeProducao.cpp \
-    TelaDeParada.cpp
+    TelaDeParada.cpp \
+    SerialDAO.cpp
 
 FORMS += \
     TelaPrincipal.ui \

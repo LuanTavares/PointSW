@@ -9,6 +9,7 @@
 #include "Usuario.h"
 #include "Serial.h"
 #include "ParadasDAO.h"
+#include "SerialDAO.h"
 
 namespace Ui {
     class TelaPrincipal;

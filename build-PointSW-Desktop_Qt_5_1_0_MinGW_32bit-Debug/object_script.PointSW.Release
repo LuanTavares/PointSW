@@ -23,6 +23,8 @@ INPUT(
 ./release\TelaDeSetup.o
 ./release\Serial.o
 ./release\TelaDeProducao.o
+./release\TelaDeParada.o
+./release\SerialDAO.o
 ./release\qrc_Arquivos.o
 ./release\moc_TelaPrincipal.o
 ./release\moc_TelaDeLogin.o
@@ -30,4 +32,5 @@ INPUT(
 ./release\moc_TelaDeSetup.o
 ./release\moc_Serial.o
 ./release\moc_TelaDeProducao.o
+./release\moc_TelaDeParada.o
 );

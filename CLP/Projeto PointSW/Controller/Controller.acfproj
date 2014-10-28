@@ -13,6 +13,7 @@
     <UniqueProjectId>5dd8d025-2839-48e0-8cc1-991d203926e6</UniqueProjectId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'On-line' " />
+  <PropertyGroup Condition=" '$(Configuration)' == 'Simulação' " />
   <Import Project="$(DevEnvDir)\PackagesToLoad\Targets\ISaGRAF.ISaGRAF5.targets" />
   <Import Project="$(DevEnvDir)\PackagesToLoad\Targets\ISaGRAF.CCW.targets" />
 </Project>

@@ -48,6 +48,26 @@ Usuario *UsuarioDAO::getUsuario(int usu) {
     }
     return retorno;
 }
+// ************ Verificar o pq não busca por nome
+Usuario *UsuarioDAO::getUsuarioPorNome(QString usu) {
+    Usuario * retorno = NULL;
+    if(db.open()) {
+        query = QSqlQuery(db);
+        QString sql = "SELECT CodigoUsuario, NomeUsuario, Grupo FROM Usuario WHERE NomeUsuario = '"+usu+"'";
+        if(!query.exec(sql)){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return retorno;
+        } else {
+            if(query.first())
+                retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+        }
+        db.close();
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+    }
+    return retorno;
+}
 
 bool UsuarioDAO::insereUsuario(Usuario usu) {
     if(db.open()) {
@@ -95,6 +115,23 @@ bool UsuarioDAO::deletaUsuario(Usuario usu) {
         query.prepare("DELETE FROM usuario WHERE codigousuario = ?");
         query.addBindValue(usu.getCodigoUsuario());
         if(!query.exec()){
+            std::cout << query.lastError().text().toStdString() << std::endl;
+            db.close();
+            return false;
+        }
+        db.close();
+        return true;
+    } else {
+        std::cout << db.lastError().text().toStdString() << std::endl;
+        return false;
+    }
+}
+
+bool UsuarioDAO::login(QString nome, QString senha) {
+    if(db.open()) {
+        query = QSqlQuery(db);
+        QString sql = "Select CodigoUsuario from usuario where nomeusuario = '"+nome+"'";
+        if(!query.exec(sql)){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return false;

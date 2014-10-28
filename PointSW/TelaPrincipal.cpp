@@ -8,6 +8,17 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
     db = conn;
     opDAO = new OrdemDeProducaoDAO(db);
     this->usuAtu = new Usuario(usuAtu);
+    if (usuAtu->getGrupo() != "TI")
+        ui->menubar->setVisible(false);
+
+    SerialDAO dialogDAO = SerialDAO(db);
+
+    if (dialogDAO.getPortaSerial().size() == 0) {
+        std::cout << "Não achou a porta Serial para este Computador." << std::endl;
+    } else {
+        portaDeComunicacao = new Serial(dialogDAO.getPortaSerial());
+    }
+
     leDadosImpressora = new QTimer();
     connect(ui->actionSelecionar_Porta_Serial,SIGNAL(triggered()),this,SLOT(selecionaPortaSerial()));
     connect(this->leDadosImpressora, SIGNAL(timeout()), this, SLOT(leDados()));
@@ -145,7 +156,7 @@ void TelaPrincipal::startaTempoDeProducao() {
  }
 
  void TelaPrincipal::selecionaPortaSerial() {
-     portaDeComunicacao = new Serial("");
+     portaDeComunicacao = new Serial(db);
      portaDeComunicacao->show();
  }
 

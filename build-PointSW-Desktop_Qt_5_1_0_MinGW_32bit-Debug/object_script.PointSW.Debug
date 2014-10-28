@@ -23,6 +23,8 @@ INPUT(
 ./debug\TelaDeSetup.o
 ./debug\Serial.o
 ./debug\TelaDeProducao.o
+./debug\TelaDeParada.o
+./debug\SerialDAO.o
 ./debug\qrc_Arquivos.o
 ./debug\moc_TelaPrincipal.o
 ./debug\moc_TelaDeLogin.o
@@ -30,4 +32,5 @@ INPUT(
 ./debug\moc_TelaDeSetup.o
 ./debug\moc_Serial.o
 ./debug\moc_TelaDeProducao.o
+./debug\moc_TelaDeParada.o
 );

@@ -27,8 +27,8 @@ public:
     QPushButton *pushButtonLogin;
     QLabel *labelUsuario;
     QLabel *labelSenha;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
+    QLineEdit *lineEditUsuario;
+    QLineEdit *lineEditSenha;
     QLabel *labelLogo;
 
     void setupUi(QWidget *TelaDeLogin)
@@ -56,12 +56,12 @@ public:
         labelSenha->setObjectName(QStringLiteral("labelSenha"));
         labelSenha->setGeometry(QRect(59, 159, 71, 16));
         labelSenha->setFont(font1);
-        lineEdit = new QLineEdit(TelaDeLogin);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(140, 122, 270, 30));
-        lineEdit_2 = new QLineEdit(TelaDeLogin);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(141, 158, 270, 30));
+        lineEditUsuario = new QLineEdit(TelaDeLogin);
+        lineEditUsuario->setObjectName(QStringLiteral("lineEditUsuario"));
+        lineEditUsuario->setGeometry(QRect(140, 122, 270, 30));
+        lineEditSenha = new QLineEdit(TelaDeLogin);
+        lineEditSenha->setObjectName(QStringLiteral("lineEditSenha"));
+        lineEditSenha->setGeometry(QRect(141, 158, 270, 30));
         labelLogo = new QLabel(TelaDeLogin);
         labelLogo->setObjectName(QStringLiteral("labelLogo"));
         labelLogo->setGeometry(QRect(157, 45, 231, 71));

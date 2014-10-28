@@ -11,11 +11,16 @@ class TelaDeParada : public QDialog {
     Q_OBJECT
     
 public:
-    explicit TelaDeParada(Parada * padara, QWidget *parent = 0);
+    explicit TelaDeParada(Parada * parada, QSqlDatabase conn, QWidget *parent = 0);
     ~TelaDeParada();
     
 private:
     Ui::TelaDeParada *ui;
+    QSqlDatabase db;
+    Parada * parada;
+
+public slots:
+    void gravaMotivoParada();
 };
 
 #endif // TELADEPARADA_H

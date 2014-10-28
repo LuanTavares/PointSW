@@ -15,8 +15,14 @@ TelaDeLogin::~TelaDeLogin(){
 
 void TelaDeLogin::abreTelaPrincipal() {
     UsuarioDAO * usuDAO = new UsuarioDAO(conn->getDataBase());
-    usu = new Usuario(usuDAO->getUsuario(1));
+    usu = new Usuario(usuDAO->getUsuario(ui->lineEditUsuario->text().toInt()));
     telaPrincipal = new TelaPrincipal(usu,conn->getDataBase());
     telaPrincipal->showMaximized();
     this->hide();
+    /*
+    if (usuDAO->login("ESI","")) {
+        std::cout << "não achou usuário";
+    } else {
+
+    }*/
 }
