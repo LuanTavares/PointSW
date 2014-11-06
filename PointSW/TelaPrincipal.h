@@ -6,6 +6,7 @@
 #include "OrdemDeProducaoDAO.h"
 #include "TelaDeSetup.h"
 #include "TelaDeProducao.h"
+#include "TelaDeParada.h"
 #include "Usuario.h"
 #include "Serial.h"
 #include "ParadasDAO.h"
@@ -35,9 +36,7 @@ private:
     QList <QPushButton *> botoes;
     Serial * portaDeComunicacao;
     QTimer * leDadosImpressora;
-    QList <Parada> paradas;
-
-    QList <Parada> retornaParadasSemMotivo();
+    QList <Parada *> paradas;
 
 public slots:
     void startaTempoDeSetup();
@@ -47,6 +46,7 @@ public slots:
     void atualizaTempoDeProducao(QTime tempo);
     void selecionaPortaSerial();
     void leDados();
+    void procuraParadasSemMotivos();
 };
 
 #endif // TELAPRINCIPAL_H

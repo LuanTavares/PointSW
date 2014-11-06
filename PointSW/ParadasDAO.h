@@ -13,6 +13,8 @@
 #include "OrdemDeProducaoDAO.h"
 #include "Usuario.h"
 #include "UsuarioDAO.h"
+#include "MotivosDeParadas.h"
+#include "MotivosDeParadasDAO.h"
 class ParadasDAO {
 private:
     QSqlDatabase db;
@@ -21,7 +23,7 @@ private:
 public:
     ParadasDAO(QSqlDatabase conn);
     QList <Parada> getParada();
-    QList <Parada> getParadasSemMotivo();
+    QList<Parada *> getParadasSemMotivo();
     bool insereParada(Parada parada);
     bool atualizaParada(Parada parada);
     bool deletaParada(Parada parada);

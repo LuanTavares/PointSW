@@ -108,6 +108,9 @@
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditMaquina">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -118,6 +121,9 @@
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEditOP">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -138,6 +144,9 @@
    </property>
   </widget>
   <widget class="QDateEdit" name="dateEditDataInicio">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -148,6 +157,9 @@
    </property>
   </widget>
   <widget class="QTimeEdit" name="timeEditHoraInicio">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>180</x>

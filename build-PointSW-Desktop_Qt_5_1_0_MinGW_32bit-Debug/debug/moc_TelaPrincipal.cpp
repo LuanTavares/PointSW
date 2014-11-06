@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_TelaPrincipal_t {
-    QByteArrayData data[10];
-    char stringdata[158];
+    QByteArrayData data[11];
+    char stringdata[183];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,13 +38,14 @@ QT_MOC_LITERAL(5, 77, 20),
 QT_MOC_LITERAL(6, 98, 5),
 QT_MOC_LITERAL(7, 104, 23),
 QT_MOC_LITERAL(8, 128, 20),
-QT_MOC_LITERAL(9, 149, 7)
+QT_MOC_LITERAL(9, 149, 7),
+QT_MOC_LITERAL(10, 157, 24)
     },
     "TelaPrincipal\0startaTempoDeSetup\0\0"
     "startaTempoDeProducao\0carrgaFilaDeProducao\0"
     "atualizaTempoDeSetup\0tempo\0"
     "atualizaTempoDeProducao\0selecionaPortaSerial\0"
-    "leDados\0"
+    "leDados\0procuraParadasSemMotivos\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,7 +55,7 @@ static const uint qt_meta_data_TelaPrincipal[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,13 +63,14 @@ static const uint qt_meta_data_TelaPrincipal[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x0a,
-       3,    0,   50,    2, 0x0a,
-       4,    0,   51,    2, 0x0a,
-       5,    1,   52,    2, 0x0a,
-       7,    1,   55,    2, 0x0a,
-       8,    0,   58,    2, 0x0a,
-       9,    0,   59,    2, 0x0a,
+       1,    0,   54,    2, 0x0a,
+       3,    0,   55,    2, 0x0a,
+       4,    0,   56,    2, 0x0a,
+       5,    1,   57,    2, 0x0a,
+       7,    1,   60,    2, 0x0a,
+       8,    0,   63,    2, 0x0a,
+       9,    0,   64,    2, 0x0a,
+      10,    0,   65,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
@@ -76,6 +78,7 @@ static const uint qt_meta_data_TelaPrincipal[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QTime,    6,
     QMetaType::Void, QMetaType::QTime,    6,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -94,6 +97,7 @@ void TelaPrincipal::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 4: _t->atualizaTempoDeProducao((*reinterpret_cast< QTime(*)>(_a[1]))); break;
         case 5: _t->selecionaPortaSerial(); break;
         case 6: _t->leDados(); break;
+        case 7: _t->procuraParadasSemMotivos(); break;
         default: ;
         }
     }
@@ -124,13 +128,13 @@ int TelaPrincipal::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

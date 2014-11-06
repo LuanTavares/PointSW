@@ -25,7 +25,9 @@ HEADERS += \
     Serial.h \
     TelaDeProducao.h \
     TelaDeParada.h \
-    SerialDAO.h
+    SerialDAO.h \
+    MotivosDeParadas.h \
+    MotivosDeParadasDAO.h
 
 SOURCES += \
     Conexao.cpp \
@@ -53,7 +55,9 @@ SOURCES += \
     Serial.cpp \
     TelaDeProducao.cpp \
     TelaDeParada.cpp \
-    SerialDAO.cpp
+    SerialDAO.cpp \
+    MotivosDeParadas.cpp \
+    MotivosDeParadasDAO.cpp
 
 FORMS += \
     TelaPrincipal.ui \

@@ -149,12 +149,12 @@ bool SetupDAO::atualizaSetup(Setup setup) {
         }
 */
         QString sql = "UPDATE Setup SET DataFim = '"+ setup.getDataFim().toString("dd/MM/yyyy");
-        sql += "', HoraFim = "+ QString::number(setup.getHoraFim())+ "WHERE CodigoMaquina = "+QString::number(setup.getMaquina()->getCodigoMaquina());
+        sql += "', HoraFim = "+ QString::number(setup.getHoraFim())+ " WHERE CodigoMaquina = "+QString::number(setup.getMaquina()->getCodigoMaquina());
         sql += " AND OP = '" + setup.getOP()->getOP() + "' AND CodigoUsuario = " + QString::number(setup.getUsuario()->getCodigoUsuario());
         sql += " AND DataInicio = '"+ setup.getDataInicio().toString("dd/MM/yyyy");
         sql += "' AND HoraInicio = " +QString::number(setup.getHoraInicio());
 
-        std::cout << sql.toStdString() << std::endl;
+        //std::cout << sql.toStdString() << std::endl;
 
         if(!query.exec(sql)){
             std::cout << query.lastError().text().toStdString() << std::endl;

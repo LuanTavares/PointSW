@@ -4,15 +4,15 @@ Parada::Parada() {
 
 }
 
-Parada::Parada(Maquina *maquina, OrdemDeProducao *op, Usuario *usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int horFim, int motivo) {
+Parada::Parada(Maquina *maquina, OrdemDeProducao *OP, Usuario *usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim, MotivosDeParadas *motivo) {
     this->maquina = maquina;
-    this->OP = op;
+    this->OP = OP;
     this->usuario = usuario;
     this->dataInicio = datIni;
     this->horaInicio = horIni;
     this->sequencia = sequencia;
     this->dataFim = datFim;
-    this->horaFim = horFim;
+    this->horaFim = HorFim;
     this->motivo = motivo;
 }
 
@@ -32,6 +32,7 @@ Parada::~Parada() {
     delete this->maquina;
     delete this->OP;
     delete this->usuario;
+    delete this->motivo;
 }
 
 Maquina * Parada::getMaquina() {
@@ -66,7 +67,7 @@ int Parada::getHoraFim() {
     return this->horaFim;
 }
 
-int Parada::getMotivo() {
+MotivosDeParadas * Parada::getMotivo() {
     return this->motivo;
 }
 
@@ -102,6 +103,6 @@ void Parada::setHoraFim(int horFim) {
     this->horaFim = horFim;
 }
 
-void Parada::setMotivo(int motivo) {
+void Parada::setMotivo(MotivosDeParadas *motivo) {
     this->motivo = motivo;
 }

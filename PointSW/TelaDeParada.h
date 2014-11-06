@@ -1,8 +1,9 @@
 #ifndef TELADEPARADA_H
 #define TELADEPARADA_H
-
 #include <QDialog>
+#include <QList>
 #include "ParadasDAO.h"
+#include "MotivosDeParadasDAO.h"
 namespace Ui {
     class TelaDeParada;
 }
@@ -18,6 +19,7 @@ private:
     Ui::TelaDeParada *ui;
     QSqlDatabase db;
     Parada * parada;
+    QList <MotivosDeParadas *> motivos;
 
 public slots:
     void gravaMotivoParada();

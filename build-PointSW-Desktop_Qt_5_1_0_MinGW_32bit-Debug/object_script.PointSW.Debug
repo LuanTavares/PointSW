@@ -25,6 +25,8 @@ INPUT(
 ./debug\TelaDeProducao.o
 ./debug\TelaDeParada.o
 ./debug\SerialDAO.o
+./debug\MotivosDeParadas.o
+./debug\MotivosDeParadasDAO.o
 ./debug\qrc_Arquivos.o
 ./debug\moc_TelaPrincipal.o
 ./debug\moc_TelaDeLogin.o

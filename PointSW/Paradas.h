@@ -4,6 +4,7 @@
 #include "Maquina.h"
 #include "OrdemDeProducao.h"
 #include "Usuario.h"
+#include "MotivosDeParadas.h"
 class Parada {
 private:
     Maquina * maquina;
@@ -14,10 +15,10 @@ private:
     int sequencia;
     QDate dataFim;
     int horaFim;
-    int motivo;
+    MotivosDeParadas * motivo;
 public:
     Parada();
-    Parada(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim, int motivo);
+    Parada(Maquina * maquina, OrdemDeProducao * OP, Usuario * usuario, QDate datIni, int horIni, int sequencia, QDate datFim, int HorFim, MotivosDeParadas * motivo);
     Parada(Parada * parada);
     ~Parada();
 
@@ -30,7 +31,7 @@ public:
     int getSequencia();
     QDate getDataFim();
     int getHoraFim();
-    int getMotivo();
+    MotivosDeParadas * getMotivo();
 
     // Sets
     void setMaquina(Maquina * maquina);
@@ -41,7 +42,7 @@ public:
     void setSequencia(int Sequencia);
     void setDataFim(QDate datFim);
     void setHoraFim(int horFim);
-    void setMotivo(int motivo);
+    void setMotivo(MotivosDeParadas * motivo);
 };
 
 #endif // PARADAS_H

@@ -48,19 +48,21 @@ Usuario *UsuarioDAO::getUsuario(int usu) {
     }
     return retorno;
 }
-// ************ Verificar o pq não busca por nome
+
 Usuario *UsuarioDAO::getUsuarioPorNome(QString usu) {
     Usuario * retorno = NULL;
     if(db.open()) {
         query = QSqlQuery(db);
-        QString sql = "SELECT CodigoUsuario, NomeUsuario, Grupo FROM Usuario WHERE NomeUsuario = '"+usu+"'";
-        if(!query.exec(sql)){
+        query.prepare("SELECT CodigoUsuario, NomeUsuario, Grupo FROM Usuario WHERE NomeUsuario = ?");
+        query.addBindValue(usu);
+
+        if(query.exec()){
+            if(query.first())
+                retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+        } else {
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return retorno;
-        } else {
-            if(query.first())
-                retorno = new Usuario(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
         }
         db.close();
     } else {
@@ -130,14 +132,27 @@ bool UsuarioDAO::deletaUsuario(Usuario usu) {
 bool UsuarioDAO::login(QString nome, QString senha) {
     if(db.open()) {
         query = QSqlQuery(db);
-        QString sql = "Select CodigoUsuario from usuario where nomeusuario = '"+nome+"'";
-        if(!query.exec(sql)){
+        query.prepare("SELECT CodigoUsuario FROM Usuario WHERE NomeUsuario = ?");
+        query.addBindValue(nome);
+
+        if(query.exec()){
+            if (query.first()) {
+                if (query.value(0).toInt() > 0) {
+                    db.close();
+                    return true;
+                } else {
+                    db.close();
+                    return false;
+                }
+            } else {
+                db.close();
+                return false;
+            }
+        } else {
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return false;
         }
-        db.close();
-        return true;
     } else {
         std::cout << db.lastError().text().toStdString() << std::endl;
         return false;

@@ -23,24 +23,11 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
     connect(ui->actionSelecionar_Porta_Serial,SIGNAL(triggered()),this,SLOT(selecionaPortaSerial()));
     connect(this->leDadosImpressora, SIGNAL(timeout()), this, SLOT(leDados()));
 
-    if (paradas.isEmpty()) {
-        carrgaFilaDeProducao();
-    } else {
-        for(int i=0;i <paradas.size();i++) {
-
-        }
-    }
+    procuraParadasSemMotivos();
 }
 
 TelaPrincipal::~TelaPrincipal() {
     delete ui;
-}
-
-// Métodos
-
-QList <Parada> TelaPrincipal::retornaParadasSemMotivo() {
-    ParadasDAO * paradasDAO = new ParadasDAO(db);
-    paradas = paradasDAO->getParadasSemMotivo();
 }
 
 // Slots
@@ -169,5 +156,20 @@ void TelaPrincipal::startaTempoDeProducao() {
          startaTempoDeProducao();
      } else {
 
+     }
+ }
+
+ void TelaPrincipal::procuraParadasSemMotivos() {
+     ParadasDAO * parDAO = new ParadasDAO(db);
+     paradas.clear();
+     paradas = parDAO->getParadasSemMotivo();
+
+     if(!paradas.isEmpty()) {
+         Parada * dialogParada = paradas.at(0);
+         TelaDeParada * dialogTelaDeParada = new TelaDeParada(dialogParada,db);
+         connect(dialogTelaDeParada, SIGNAL(destroyed()), this, SLOT(procuraParadasSemMotivos()));
+         dialogTelaDeParada->show();
+     } else {
+         carrgaFilaDeProducao();
      }
  }

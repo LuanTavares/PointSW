@@ -25,6 +25,8 @@ INPUT(
 ./release\TelaDeProducao.o
 ./release\TelaDeParada.o
 ./release\SerialDAO.o
+./release\MotivosDeParadas.o
+./release\MotivosDeParadasDAO.o
 ./release\qrc_Arquivos.o
 ./release\moc_TelaPrincipal.o
 ./release\moc_TelaDeLogin.o
