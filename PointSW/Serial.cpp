@@ -91,9 +91,43 @@ bool Serial::terminouSetup() {
     modbus_connect(mbRTU);
 
     modbus_read_bits(mbRTU, 2, 1, tab_reg_16);
-    std::cout << "Valor: " << tab_reg_16[0] << std::endl;
+    //std::cout << "Valor: " << tab_reg_16[0] << std::endl;
     if (tab_reg_16[0] == 1) {
         retorno = true;
+    } else {
+        retorno = false;
+    }
+
+    modbus_close(mbRTU);
+    modbus_free(mbRTU);
+
+    return retorno;
+}
+
+bool Serial::terminouProducao(int quantidadePedida) {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, TRUE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
+
+    bool retorno = false;
+    tab_reg_16[0] = 0;
+
+    modbus_connect(mbRTU);
+
+    // Busca se a introdução ainda está ativa
+    modbus_read_bits(mbRTU, 2, 1, tab_reg_16);
+    //std::cout << "Valor: " << tab_reg_16[0] << std::endl;
+
+    // Busca a quantidade Produzida
+    modbus_read_registers(mbRTU,2,1,tab_reg_32);
+
+    if (tab_reg_16[0] == 0) {
+        retorno = false;
+        int quantidadeProduzida = tab_reg_32[0];
+        if (quantidadeProduzida >= quantidadePedida) {
+            retorno = true;
+        }
     } else {
         retorno = false;
     }

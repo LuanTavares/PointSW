@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include "TelaPrincipal.h"
-#include "UsuarioDAO.h"
+#include "DAO/UsuarioDAO.h"
+#include <QCryptographicHash>
 namespace Ui {
     class TelaDeLogin;
 }

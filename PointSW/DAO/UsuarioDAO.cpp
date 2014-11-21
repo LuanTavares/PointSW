@@ -132,8 +132,9 @@ bool UsuarioDAO::deletaUsuario(Usuario usu) {
 bool UsuarioDAO::login(QString nome, QString senha) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("SELECT CodigoUsuario FROM Usuario WHERE NomeUsuario = ?");
+        query.prepare("SELECT CodigoUsuario FROM Usuario WHERE NomeUsuario = ? AND senha = ?");
         query.addBindValue(nome);
+        query.addBindValue(senha);
 
         if(query.exec()){
             if (query.first()) {

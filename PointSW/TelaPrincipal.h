@@ -3,14 +3,14 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include "OrdemDeProducaoDAO.h"
+#include "DAO/OrdemDeProducaoDAO.h"
 #include "TelaDeSetup.h"
 #include "TelaDeProducao.h"
 #include "TelaDeParada.h"
-#include "Usuario.h"
+#include "Dados/Usuario.h"
 #include "Serial.h"
-#include "ParadasDAO.h"
-#include "SerialDAO.h"
+#include "DAO/ParadasDAO.h"
+#include "DAO/SerialDAO.h"
 
 namespace Ui {
     class TelaPrincipal;
@@ -38,6 +38,7 @@ private:
     QTimer * leDadosImpressora;
     QList <Parada *> paradas;
     bool estaNoSetup;
+    bool estaNaProducao;
 
 public slots:
     void startaTempoDeSetup();

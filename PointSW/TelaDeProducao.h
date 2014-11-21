@@ -2,7 +2,7 @@
 #define TELADEPRODUCAO_H
 #include <QWidget>
 #include <QTimer>
-#include "ProducaoDAO.h"
+#include "DAO/ProducaoDAO.h"
 class TelaDeProducao : public QWidget  {
 
     Q_OBJECT

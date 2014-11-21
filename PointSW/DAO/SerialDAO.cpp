@@ -2,7 +2,7 @@
 
 SerialDAO::SerialDAO(QSqlDatabase conn) {
     this->db = conn;
-    this->hostName = "maquina1";
+    this->hostName = QHostInfo::localHostName();
 }
 
 QString SerialDAO::getPortaSerial() {

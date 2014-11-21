@@ -6,7 +6,7 @@
 #include <QSqlQueryModel>
 #include <iostream>
 #include <QtSql>
-#include "Maquina.h"
+#include "Dados\Maquina.h"
 class MaquinaDAO {
 private:
     QSqlDatabase db;

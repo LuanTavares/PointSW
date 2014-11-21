@@ -4,7 +4,8 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <iostream>
-#include "Conexao.h"
+#include "Dados\Conexao.h"
+#include <QHostInfo>
 
 class SerialDAO {
 private:

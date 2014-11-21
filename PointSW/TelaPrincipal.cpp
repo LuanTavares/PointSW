@@ -12,12 +12,12 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
     if (usuAtu->getGrupo() != "TI")
         ui->menubar->setVisible(false);
 
-    SerialDAO dialogDAO = SerialDAO(db);
+    SerialDAO dialogSserialDAO = SerialDAO(db);
 
-    if (dialogDAO.getPortaSerial().size() == 0) {
+    if (dialogSserialDAO.getPortaSerial().size() == 0) {
         std::cout << "Não achou a porta Serial para este Computador." << std::endl;
     } else {
-        portaDeComunicacao = new Serial(dialogDAO.getPortaSerial());
+        portaDeComunicacao = new Serial(dialogSserialDAO.getPortaSerial());
     }
 
     leDadosImpressora = new QTimer();
@@ -80,6 +80,7 @@ void TelaPrincipal::startaTempoDeProducao() {
     QDate datIni;
     QTime horIni;
     QDate datFim;
+    estaNaProducao = true;
     Maquina * maq = new Maquina(op->getMaquina());
     producao = new Producao(maq,op,usuAtu,datIni.currentDate(),horIni.currentTime().minute(),0,datFim,0,0);
     tempoDeProducao = new TelaDeProducao(producao,db);
@@ -181,7 +182,10 @@ void TelaPrincipal::startaTempoDeProducao() {
          delete tempoDeSetup;
          estaNoSetup = false;
          startaTempoDeProducao();
-     } else {
+     } else if (portaDeComunicacao->terminouProducao(1) && estaNaProducao){
+         tempoDeProducao->acabouProducao();
+         delete tempoDeProducao;
+         estaNaProducao = false;
 
      }
  }

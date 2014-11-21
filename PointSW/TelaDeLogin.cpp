@@ -5,6 +5,7 @@ TelaDeLogin::TelaDeLogin(QWidget *parent) : QWidget(parent), ui(new Ui::TelaDeLo
     ui->setupUi(this);
     QPixmap imagem(":/Imagens/Arquivos/Sopasta - Logotipo JPEG.png");
     ui->labelLogo->setPixmap(imagem);
+    ui->lineEditSenha->setEchoMode(QLineEdit::Password);
     conn = new Conexao();
     this->setWindowTitle("PointSW");
     connect(ui->pushButtonLogin, SIGNAL(clicked()), this, SLOT(abreTelaPrincipal()));
@@ -16,8 +17,16 @@ TelaDeLogin::~TelaDeLogin(){
 
 void TelaDeLogin::abreTelaPrincipal() {
     UsuarioDAO * usuDAO = new UsuarioDAO(conn->getDataBase());
-    if (usuDAO->login(ui->lineEditUsuario->text(),ui->lineEditSenha->text())) {
-        usu = new Usuario(usuDAO->getUsuarioPorNome(ui->lineEditUsuario->text()));
+    QString usuario = ui->lineEditUsuario->text();
+    QString senha = ui->lineEditSenha->text();
+
+    usuario = usuario.toUpper();
+    senha = senha.toUpper();
+
+    QString senhaEmMD5 = QString(QCryptographicHash::hash((senha.toLatin1()),QCryptographicHash::Md5).toHex());
+    //std::cout << senhaEmMD5.toStdString() << std::endl;
+    if (usuDAO->login(usuario,senhaEmMD5)) {
+        usu = new Usuario(usuDAO->getUsuarioPorNome(usuario));
         telaPrincipal = new TelaPrincipal(usu,conn->getDataBase());
         telaPrincipal->showMaximized();
         this->hide();

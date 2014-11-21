@@ -7,33 +7,33 @@ win32:DEFINES += _TTY_WIN_  WINVER=0x0501
 win32:LIBS += -lsetupapi -lwsock32 -lws2_32
 
 HEADERS += \
-    Conexao.h \
-    Cliente.h \
-    Maquina.h \
-    Usuario.h \
-    OrdemDeProducao.h \
-    Setup.h \
-    Paradas.h \
-    Producao.h \
-    Apontamento.h \
-    UsuarioDAO.h \
-    MaquinaDAO.h \
-    ClienteDAO.h \
-    OrdemDeProducaoDAO.h \
-    SetupDAO.h \
-    ProducaoDAO.h \
-    ParadasDAO.h \
-    ApontamentoDAO.h \
+    Dados/Conexao.h \
+    Dados/Cliente.h \
+    Dados/Maquina.h \
+    Dados/Usuario.h \
+    Dados/OrdemDeProducao.h \
+    Dados/Setup.h \
+    Dados/Paradas.h \
+    Dados/Producao.h \
+    Dados/Apontamento.h \
+    DAO/UsuarioDAO.h \
+    DAO/MaquinaDAO.h \
+    DAO/ClienteDAO.h \
+    DAO/OrdemDeProducaoDAO.h \
+    DAO/SetupDAO.h \
+    DAO/ProducaoDAO.h \
+    DAO/ParadasDAO.h \
+    DAO/ApontamentoDAO.h \
     TelaPrincipal.h \
     TelaDeLogin.h \
-    Botao.h \
+    Dados/Botao.h \
     TelaDeSetup.h \
     Serial.h \
     TelaDeProducao.h \
     TelaDeParada.h \
     SerialDAO.h \
-    MotivosDeParadas.h \
-    MotivosDeParadasDAO.h \
+    Dados/MotivosDeParadas.h \
+    DAO/MotivosDeParadasDAO.h \
     LibModBus/modbus-version.h \
     LibModBus/modbus-tcp-private.h \
     LibModBus/modbus-tcp.h \
@@ -44,34 +44,34 @@ HEADERS += \
     LibModBus/config.h
 
 SOURCES += \
-    Conexao.cpp \
+    Dados/Conexao.cpp \
     Main.cpp \
-    Cliente.cpp \
-    Maquina.cpp \
-    Usuario.cpp \
-    OrdemDeProducao.cpp \
-    Setup.cpp \
-    Paradas.cpp \
-    Producao.cpp \
-    Apontamento.cpp \
-    UsuarioDAO.cpp \
-    MaquinaDAO.cpp \
-    ClienteDAO.cpp \
-    OrdemDeProducaoDAO.cpp \
-    SetupDAO.cpp \
-    ProducaoDAO.cpp \
-    ParadasDAO.cpp \
-    ApontamentoDAO.cpp \
+    Dados/Cliente.cpp \
+    Dados/Maquina.cpp \
+    Dados/Usuario.cpp \
+    Dados/OrdemDeProducao.cpp \
+    Dados/Setup.cpp \
+    Dados/Paradas.cpp \
+    Dados/Producao.cpp \
+    Dados/Apontamento.cpp \
+    DAO/UsuarioDAO.cpp \
+    DAO/MaquinaDAO.cpp \
+    DAO/ClienteDAO.cpp \
+    DAO/OrdemDeProducaoDAO.cpp \
+    DAO/SetupDAO.cpp \
+    DAO/ProducaoDAO.cpp \
+    DAO/ParadasDAO.cpp \
+    DAO/ApontamentoDAO.cpp \
     TelaPrincipal.cpp \
     TelaDeLogin.cpp \
-    Botao.cpp \
+    Dados/Botao.cpp \
     TelaDeSetup.cpp \
     Serial.cpp \
     TelaDeProducao.cpp \
     TelaDeParada.cpp \
-    SerialDAO.cpp \
-    MotivosDeParadas.cpp \
-    MotivosDeParadasDAO.cpp \
+    DAO/SerialDAO.cpp \
+    Dados/MotivosDeParadas.cpp \
+    DAO/MotivosDeParadasDAO.cpp \
     LibModBus/modbus-tcp.c \
     LibModBus/modbus-rtu.c \
     LibModBus/modbus-data.c \

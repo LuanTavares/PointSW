@@ -2,8 +2,8 @@
 #define TELADEPARADA_H
 #include <QDialog>
 #include <QList>
-#include "ParadasDAO.h"
-#include "MotivosDeParadasDAO.h"
+#include "DAO/ParadasDAO.h"
+#include "DAO/MotivosDeParadasDAO.h"
 namespace Ui {
     class TelaDeParada;
 }

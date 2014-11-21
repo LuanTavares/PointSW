@@ -5,8 +5,8 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <iostream>
-#include "Conexao.h"
-#include "Usuario.h"
+#include "Dados\Conexao.h"
+#include "Dados\Usuario.h"
 class UsuarioDAO {
 private:
     QSqlDatabase db;

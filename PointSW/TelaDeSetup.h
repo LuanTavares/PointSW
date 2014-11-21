@@ -2,7 +2,7 @@
 #define TELADESETUP_H
 #include <QWidget>
 #include <QTimer>
-#include "SetupDAO.h"
+#include "DAO/SetupDAO.h"
 class TelaDeSetup : public QWidget  {
 
     Q_OBJECT

@@ -6,8 +6,8 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QList>
 #include <iostream>
-#include "SerialDAO.h"
-#include "Conexao.h"
+#include "DAO/SerialDAO.h"
+#include "Dados/Conexao.h"
 #include <LibModBus/modbus-rtu.h>
 
 namespace Ui {
@@ -23,6 +23,7 @@ public:
     ~Serial();
     void listaPortas();
     bool terminouSetup();
+    bool terminouProducao(int quantidadePedida);
     QByteArray solicitaLeituraQtdTotal();
     modbus_t *mbRTU;
     uint16_t tab_reg_32[32];

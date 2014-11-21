@@ -5,13 +5,13 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <iostream>
-#include "Conexao.h"
-#include "Producao.h"
-#include "Maquina.h"
+#include "Dados\Conexao.h"
+#include "Dados\Producao.h"
+#include "Dados\Maquina.h"
 #include "MaquinaDAO.h"
-#include "OrdemDeProducao.h"
+#include "Dados\OrdemDeProducao.h"
 #include "OrdemDeProducaoDAO.h"
-#include "Usuario.h"
+#include "Dados\Usuario.h"
 #include "UsuarioDAO.h"
 class ProducaoDAO {
 private:
