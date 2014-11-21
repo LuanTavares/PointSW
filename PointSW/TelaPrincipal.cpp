@@ -6,6 +6,7 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
     ui->setupUi(this);
     this->setWindowTitle("Fila de Produção");
     db = conn;
+
     opDAO = new OrdemDeProducaoDAO(db);
     this->usuAtu = new Usuario(usuAtu);
     if (usuAtu->getGrupo() != "TI")
@@ -37,15 +38,40 @@ void TelaPrincipal::startaTempoDeSetup() {
     QTime horIni;
     QDate datFim;
     Maquina * maq = new Maquina(op->getMaquina());
+    estaNoSetup = true;
     setup = new Setup(maq,op,usuAtu,datIni.currentDate(),horIni.currentTime().minute(),datFim,0);
-    tempoDeSetup = new TelaDeSetup(setup,db);
+    
+    SetupDAO setDAO(db);
 
-    connect(tempoDeSetup, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeSetup(QTime)));
+    if (setDAO.existeEsteSetup(setup)) {
+        QDate datFim;
+        QTime horIni;
+        int qtdMin = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
 
-    botoes.at(0)->setEnabled(false);
+        Maquina * maqParada = new Maquina(maq);
+        OrdemDeProducao * opParada = new OrdemDeProducao(op);
+        Usuario * usuParada = new Usuario(this->usuAtu);
 
-    leDadosImpressora->start(60000);
-    this->update();
+        setup = setDAO.getSetup(maqParada,opParada,usuParada);
+
+        QDate datIniParada = this->setup->getDataFim();
+        int horIniParada = this->setup->getHoraFim();
+        Parada * parada = new Parada(maqParada,opParada,usuParada,datIniParada,horIniParada,0,datFim.currentDate(),qtdMin,NULL);
+        ParadasDAO parDAO(db);
+        parDAO.insereParada(parada);
+        botoes.at(0)->setEnabled(false);
+        procuraParadasSemMotivos();
+    } else {
+    
+        tempoDeSetup = new TelaDeSetup(setup,db);
+
+        connect(tempoDeSetup, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeSetup(QTime)));
+
+        botoes.at(0)->setEnabled(false);
+
+        leDadosImpressora->start(1000);
+        this->update();
+    }
 
 }
 
@@ -63,6 +89,7 @@ void TelaPrincipal::startaTempoDeProducao() {
 }
 
  void TelaPrincipal::carrgaFilaDeProducao() {
+     ops.clear();
 
      ops = opDAO->getOPs();
      ui->filaDeProducao->setRowCount(ops.size());
@@ -148,11 +175,11 @@ void TelaPrincipal::startaTempoDeProducao() {
  }
 
  void TelaPrincipal::leDados() {
-     // Le dados da porta serial
-     if (true/* Implementar para saber se já saiu do setup */) {
+
+     if (portaDeComunicacao->terminouSetup() && estaNoSetup) {
          tempoDeSetup->acabouSetup();
          delete tempoDeSetup;
-         // Starta tempo de produção
+         estaNoSetup = false;
          startaTempoDeProducao();
      } else {
 

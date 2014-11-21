@@ -37,6 +37,7 @@ private:
     Serial * portaDeComunicacao;
     QTimer * leDadosImpressora;
     QList <Parada *> paradas;
+    bool estaNoSetup;
 
 public slots:
     void startaTempoDeSetup();

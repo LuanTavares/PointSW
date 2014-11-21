@@ -114,23 +114,38 @@ QList <Parada *> ParadasDAO::getParadasSemMotivo() {
 bool ParadasDAO::insereParada(Parada parada) {
     if(db.open()) {
         query = QSqlQuery(db);
-        query.prepare("INSERT INTO Paradas (CodigoMaquina, op, CodigoUsuario, DataInicio, HoraInicio, Sequencia, DataFim, HoraFim, Motivo) VALUES (?,?,?,?,?,?,?,?,?)");
-        query.addBindValue(parada.getMaquina()->getCodigoMaquina());
+        
+        query.prepare("SELECT MAX(sequencia) FROM Paradas WHERE op = ?");
         query.addBindValue(parada.getOP()->getOP());
-        query.addBindValue(parada.getUsuario()->getCodigoUsuario());
-        query.addBindValue(parada.getDataInicio());
-        query.addBindValue(parada.getHoraInicio());
-        query.addBindValue(parada.getSequencia());
-        query.addBindValue(parada.getDataFim());
-        query.addBindValue(parada.getHoraFim());
-        query.addBindValue(parada.getMotivo()->getCodigo());
+        
         if(!query.exec()){
             std::cout << query.lastError().text().toStdString() << std::endl;
             db.close();
             return false;
+        } else {
+            if (query.first()) {
+                parada.setSequencia(query.value(0).toInt()+1);
+            } else {
+                parada.setSequencia(1);
+            }
+            QSqlQuery queryInsert(db);
+            queryInsert.prepare("INSERT INTO Paradas (CodigoMaquina, op, CodigoUsuario, DataInicio, HoraInicio, Sequencia, DataFim, HoraFim, Motivo) VALUES (?,?,?,?,?,?,?,?,NULL)");
+            queryInsert.addBindValue(parada.getMaquina()->getCodigoMaquina());
+            queryInsert.addBindValue(parada.getOP()->getOP());
+            queryInsert.addBindValue(parada.getUsuario()->getCodigoUsuario());
+            queryInsert.addBindValue(parada.getDataInicio());
+            queryInsert.addBindValue(parada.getHoraInicio());
+            queryInsert.addBindValue(parada.getSequencia());
+            queryInsert.addBindValue(parada.getDataFim());
+            queryInsert.addBindValue(parada.getHoraFim());
+            if(!queryInsert.exec()){
+                std::cout << queryInsert.lastError().text().toStdString() << std::endl;
+                db.close();
+                return false;
+            }
+            db.close();
+            return true;
         }
-        db.close();
-        return true;
     } else {
         std::cout << db.lastError().text().toStdString() << std::endl;
         return false;

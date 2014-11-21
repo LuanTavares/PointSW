@@ -21,7 +21,7 @@ private:
 public:
     SetupDAO(QSqlDatabase conn);
     QList <Setup> getSetups();
-    Setup getSetup(Maquina * maq, OrdemDeProducao * op, Usuario * usu, QDate datIni, int HorIni);
+    Setup *getSetup(Maquina * maq, OrdemDeProducao * op, Usuario * usu);
     bool existeEsteSetup(Setup * set);
     bool insereSetup(Setup setup);
     bool atualizaSetup(Setup setup);

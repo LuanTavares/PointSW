@@ -20,14 +20,16 @@ Serial::Serial(QString porta, QWidget *parent) : QDialog(parent), ui(new Ui::Ser
 
 Serial::Serial(QSqlDatabase conn, QWidget *parent) : QDialog(parent), ui(new Ui::Serial) {
     ui->setupUi(this);
-    this->db = conn;
-    listaDePortas.push_front(" ");
+    this->db = conn;    
     listaPortas();
+    ui->comboBoxPortasSeriais->addItem(" ");
     for (int i=0;i < listaDePortas.size(); i++) {
         ui->comboBoxPortasSeriais->addItem(listaDePortas.at(i));
     }
+
     connect(ui->comboBoxPortasSeriais, SIGNAL(currentIndexChanged(int)),this,SLOT(selecionaPorta(int)));
     connect(ui->pushButtonSalvar, SIGNAL(clicked()), SLOT(gravaPortaSerial()));
+
 
 }
 
@@ -47,10 +49,10 @@ void Serial::listaPortas() {
 
 void Serial::selecionaPorta(int porta) {
     portaSelecionada.setPort(listaDePortasSeriais.at(porta-1));
-    portaSelecionada.setBaudRate(QSerialPort::Baud19200);
+    portaSelecionada.setBaudRate(QSerialPort::Baud9600);
     portaSelecionada.setDataBits(QSerialPort::Data8);
     portaSelecionada.setParity(QSerialPort::NoParity);
-    portaSelecionada.setStopBits(QSerialPort::TwoStop);
+    portaSelecionada.setStopBits(QSerialPort::OneStop);
     if (portaSelecionada.open(QIODevice::ReadWrite)) {
         portaSelecionada.close();
     }
@@ -62,25 +64,42 @@ void Serial::gravaPortaSerial() {
     this->close();
 }
 
-QByteArray Serial::solicitaleitura(int endereco, int funcao, int registroInicial, int qtdRegistros) {
+QByteArray Serial::solicitaLeituraQtdTotal() {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, TRUE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
+
     QByteArray retorno;
-    retorno.clear();
+    modbus_connect(mbRTU);
+    // Le o registro na posição 40005, 4 por que 400 é automático e 4 por que é o 5 registro, 0,1,2,3,4
+    modbus_read_registers(mbRTU, 4, 1, tab_reg_32);
+    retorno.insert(0,tab_reg_32[0]);
 
+    modbus_close(mbRTU);
+    modbus_free(mbRTU);
+}
 
-    if (portaSelecionada.open(QIODevice::ReadWrite)) {
+bool Serial::terminouSetup() {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, TRUE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
 
-        QDataStream dialogDataStream(&retorno, QIODevice::WriteOnly);
-        dialogDataStream.setByteOrder(QDataStream::LittleEndian);
-        dialogDataStream << quint8(endereco) << quint8(funcao) << quint16(registroInicial) << quint16(qtdRegistros);
-        dialogDataStream << quint16(qChecksum(retorno.constData(),retorno.size()));
+    bool retorno = false;
 
-        portaSelecionada.write(retorno);
-        qDebug() << retorno;
+    modbus_connect(mbRTU);
 
-        retorno = portaSelecionada.readAll();
-        qDebug() << retorno;
-
-        //ui->labelPortaSeriais->setText(QString(retorno));
+    modbus_read_bits(mbRTU, 2, 1, tab_reg_16);
+    std::cout << "Valor: " << tab_reg_16[0] << std::endl;
+    if (tab_reg_16[0] == 1) {
+        retorno = true;
+    } else {
+        retorno = false;
     }
+
+    modbus_close(mbRTU);
+    modbus_free(mbRTU);
+
     return retorno;
 }

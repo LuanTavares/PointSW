@@ -8,6 +8,7 @@
 #include <iostream>
 #include "SerialDAO.h"
 #include "Conexao.h"
+#include <LibModBus/modbus-rtu.h>
 
 namespace Ui {
     class Serial;
@@ -21,7 +22,12 @@ public:
     explicit Serial(QSqlDatabase conn, QWidget *parent = 0);
     ~Serial();
     void listaPortas();
-    QByteArray solicitaleitura(int endereco, int funcao, int registroInicial, int qtdRegistros);
+    bool terminouSetup();
+    QByteArray solicitaLeituraQtdTotal();
+    modbus_t *mbRTU;
+    uint16_t tab_reg_32[32];
+    uint8_t tab_reg_16[16];
+
 
 public slots:
     void selecionaPorta(int porta);

@@ -1,4 +1,10 @@
-QT += widgets sql serialport network
+QT += widgets sql serialport network core
+
+TEMPLATE = app
+
+win32:DEFINES += _TTY_WIN_  WINVER=0x0501
+
+win32:LIBS += -lsetupapi -lwsock32 -lws2_32
 
 HEADERS += \
     Conexao.h \
@@ -27,7 +33,15 @@ HEADERS += \
     TelaDeParada.h \
     SerialDAO.h \
     MotivosDeParadas.h \
-    MotivosDeParadasDAO.h
+    MotivosDeParadasDAO.h \
+    LibModBus/modbus-version.h \
+    LibModBus/modbus-tcp-private.h \
+    LibModBus/modbus-tcp.h \
+    LibModBus/modbus-rtu-private.h \
+    LibModBus/modbus-rtu.h \
+    LibModBus/modbus-private.h \
+    LibModBus/modbus.h \
+    LibModBus/config.h
 
 SOURCES += \
     Conexao.cpp \
@@ -57,7 +71,11 @@ SOURCES += \
     TelaDeParada.cpp \
     SerialDAO.cpp \
     MotivosDeParadas.cpp \
-    MotivosDeParadasDAO.cpp
+    MotivosDeParadasDAO.cpp \
+    LibModBus/modbus-tcp.c \
+    LibModBus/modbus-rtu.c \
+    LibModBus/modbus-data.c \
+    LibModBus/modbus.c
 
 FORMS += \
     TelaPrincipal.ui \
