@@ -82,7 +82,7 @@ QByteArray Serial::solicitaLeituraQtdTotal() {
 
 bool Serial::terminouSetup() {
     mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
-    modbus_set_debug(mbRTU, TRUE);
+    modbus_set_debug(mbRTU, FALSE);
     modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
     modbus_set_slave(mbRTU, 1);
 
@@ -106,7 +106,7 @@ bool Serial::terminouSetup() {
 
 bool Serial::terminouProducao(int quantidadePedida) {
     mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
-    modbus_set_debug(mbRTU, TRUE);
+    modbus_set_debug(mbRTU, FALSE);
     modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
     modbus_set_slave(mbRTU, 1);
 

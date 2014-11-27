@@ -3,7 +3,7 @@ Nb = 2
 NotMDF = 0, 1, AB_, OPTIMUS_, IO_Base
 MDF = -1
 RIdx = 0
-NotMDF = 101, 1, AB_, OPTIMUS_, IOUP_Analog
+NotMDF = 102, 1, AB_, OPTIMUS_, IOUP_Analog
 MDF = -1
 RIdx = 0
 
@@ -16,10 +16,10 @@ RIdx = 0, 0
 NotMDF = 0, 1, 1, AB_, OPTIMUS_, digitIn_Base
 MDF = -1
 RIdx = 0, 0
-NotMDF = 101, 0, 1, AB_, OPTIMUS_, analogOut_UP
+NotMDF = 102, 0, 1, AB_, OPTIMUS_, analogOut_UP
 MDF = -1
 RIdx = 0, 1
-NotMDF = 101, 1, 1, AB_, OPTIMUS_, analogIn_UP
+NotMDF = 102, 1, 1, AB_, OPTIMUS_, analogIn_UP
 MDF = -1
 RIdx = 0, 1
 
@@ -49,8 +49,8 @@ RIdx = 0, 1, 2
 Nb = 0
 RIdx = 0, 1, 3
 Nb = 2
-MDF = 1\1, 0, 0, 0, -1, _IO_P1_AI_00
-MDF = 1\1, 0, 0, 1, -1, _IO_P1_AI_01
+MDF = 1\1, 0, 0, 0, -1, _IO_P2_AI_00
+MDF = 1\1, 0, 0, 1, -1, _IO_P2_AI_01
 
 
 [__READONLY_VALUES]
