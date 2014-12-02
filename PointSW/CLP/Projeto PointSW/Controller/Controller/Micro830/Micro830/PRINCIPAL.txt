@@ -1,0 +1,87 @@
+(*************** QuickLD compiler **********************)
+(*************** Copyright ICS Triplex ISaGRAF *********)
+(*************** ST ************************************)
+
+(*************** Rung **********************************)
+(*Contato que vem da rede para liberar a maquina*)
+(*Label :*)(**)
+__EDTB1 := LIBERA_MAQUINA ;
+IF __EDTB1 THEN
+(*Set coil*)
+_IO_EM_DO_00 := TRUE ;
+END_IF ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*Contato que vem da rede para bloquear a máquina*)
+(*Label :*)(**)
+__EDTB2 := BLOQUEIA_MAQUINA ;
+IF __EDTB2 THEN
+(*Reset coil*)
+_IO_EM_DO_00 := FALSE ;
+END_IF ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(*Status maquina*)
+(*Label :*)(**)
+RODANDO := _IO_EM_DI_00 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+(*Label :*)(**)
+PRODUZINDO := _IO_EM_DI_00 AND _IO_EM_DI_01 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+(*Label :*)(**)
+(* FB call: CTU *)
+CTU_1(_IO_EM_DI_02, RESET_CONTAGEM, PRESET) ;
+QTD_PEDIDA := CTU_1.CV ;
+COUNT_1_OK := CTU_1.Q ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+(*Label :*)(**)
+(* FB call: CTU *)
+CTU_2(COUNT_1_OK AND _IO_EM_DI_02, RESET_CONTAGEM, QTD_PEDIDA) ;
+EXCEDENTE := CTU_2.CV ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+(*Label :*)(**)
+__EDTB3 := TRUE ;
+IF __EDTB3 THEN
+TOTAL_CONTADO := (QTD_PEDIDA + EXCEDENTE) ;
+END_IF ;
+__MO_PLUS_1 := __EDTB3 ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+

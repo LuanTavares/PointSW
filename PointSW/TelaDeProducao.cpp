@@ -33,6 +33,10 @@ TelaDeProducao::~TelaDeProducao() {
     delete producao;
 }
 
+void TelaDeProducao::setaStatus(int statusProducao) {
+    producao->setStatus(statusProducao);
+}
+
 // Slots
 
 void TelaDeProducao::gravaProducao() {

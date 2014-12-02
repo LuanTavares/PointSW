@@ -89,7 +89,7 @@ void Producao::setHoraInicio(int horIni) {
     this->horaInicio = horIni;
 }
 
-void Producao::setConagem(int contagem) {
+void Producao::setContagem(int contagem) {
     this->contagem= contagem;
 }
 

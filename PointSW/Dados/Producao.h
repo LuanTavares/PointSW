@@ -38,7 +38,7 @@ public:
     void setUsuario(Usuario * usuario);
     void setDataInicio(QDate datIni);
     void setHoraInicio(int horIni);
-    void setConagem(int contagem);
+    void setContagem(int contagem);
     void setDataFim(QDate datFim);
     void setHoraFim(int horFim);
     void setStatus(int status);

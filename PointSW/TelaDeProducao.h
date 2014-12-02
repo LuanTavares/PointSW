@@ -9,6 +9,7 @@ class TelaDeProducao : public QWidget  {
 
 public:
     TelaDeProducao(Producao * producao, QSqlDatabase conn);
+    void setaStatus(int statusProducao);
     ~TelaDeProducao();
 private:
     QTimer * gravaTempoProducao;

@@ -12,12 +12,24 @@
     <mapping variable="Produzindo@Principal" parent="Principal" dataType="Bool" address="000004" va="0x441">
       <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
     </mapping>
+    <mapping variable="Libera_Maquina@Principal" parent="Principal" dataType="Bool" address="000005" va="0x442">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+    <mapping variable="Bloqueia_Maquina@Principal" parent="Principal" dataType="Bool" address="000006" va="0x443">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
+    <mapping variable="Reset_Contagem@Principal" parent="Principal" dataType="Bool" address="000007" va="0x444">
+      <MBVarInfo ElemType="Bool" SubElemType="Any" DataTypeSize="1" />
+    </mapping>
   </modbusRegister>
   <modbusRegister name="HOLDING_REGISTERS">
     <mapping variable="Total_Contado@Principal" parent="Principal" dataType="Dint" address="40005" va="0x468">
       <MBVarInfo ElemType="Dint" SubElemType="Any" DataTypeSize="4" />
     </mapping>
     <mapping variable="Preset@Principal" parent="Principal" dataType="Dint" address="40007" va="0x46c">
+      <MBVarInfo ElemType="Dint" SubElemType="Any" DataTypeSize="4" />
+    </mapping>
+    <mapping variable="Excedente@Principal" parent="Principal" dataType="Dint" address="40009" va="0x474">
       <MBVarInfo ElemType="Dint" SubElemType="Any" DataTypeSize="4" />
     </mapping>
   </modbusRegister>

@@ -24,7 +24,10 @@ public:
     void listaPortas();
     bool terminouSetup();
     bool terminouProducao(int quantidadePedida);
-    QByteArray solicitaLeituraQtdTotal();
+    bool setaQuanidadePedida(int quantidadePedida);
+    bool liberaMaquina();
+    bool bloqueiaMaquina();
+    int solicitaLeituraQtdTotal();
     modbus_t *mbRTU;
     uint16_t tab_reg_32[32];
     uint8_t tab_reg_16[16];

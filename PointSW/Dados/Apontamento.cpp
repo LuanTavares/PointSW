@@ -1,6 +1,8 @@
 #include "Apontamento.h"
 
 Apontamento::Apontamento() {
+    this->quantidadeDeParadas = 0;
+    this->quantidadeProduzida = 0;
 
 }
 

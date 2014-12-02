@@ -64,20 +64,21 @@ void Serial::gravaPortaSerial() {
     this->close();
 }
 
-QByteArray Serial::solicitaLeituraQtdTotal() {
+int Serial::solicitaLeituraQtdTotal() {
     mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
-    modbus_set_debug(mbRTU, TRUE);
+    modbus_set_debug(mbRTU, FALSE);
     modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
     modbus_set_slave(mbRTU, 1);
 
-    QByteArray retorno;
     modbus_connect(mbRTU);
     // Le o registro na posição 40005, 4 por que 400 é automático e 4 por que é o 5 registro, 0,1,2,3,4
     modbus_read_registers(mbRTU, 4, 1, tab_reg_32);
-    retorno.insert(0,tab_reg_32[0]);
+    int retorno = tab_reg_32[0];
 
     modbus_close(mbRTU);
     modbus_free(mbRTU);
+
+    return retorno;
 }
 
 bool Serial::terminouSetup() {
@@ -120,11 +121,12 @@ bool Serial::terminouProducao(int quantidadePedida) {
     //std::cout << "Valor: " << tab_reg_16[0] << std::endl;
 
     // Busca a quantidade Produzida
-    modbus_read_registers(mbRTU,2,1,tab_reg_32);
+    modbus_read_registers(mbRTU,4,1,tab_reg_32);
 
     if (tab_reg_16[0] == 0) {
         retorno = false;
         int quantidadeProduzida = tab_reg_32[0];
+        std::cout << "Quantidade Produzida: " << tab_reg_32[0] << " Quantidade Pedida " << quantidadePedida << std::endl;
         if (quantidadeProduzida >= quantidadePedida) {
             retorno = true;
         }
@@ -137,3 +139,60 @@ bool Serial::terminouProducao(int quantidadePedida) {
 
     return retorno;
 }
+
+bool Serial::setaQuanidadePedida(int quantidadePedida) {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, FALSE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
+
+    modbus_connect(mbRTU);
+    modbus_write_bit(mbRTU,6,1);
+    modbus_close(mbRTU);
+
+    modbus_connect(mbRTU);
+    modbus_write_bit(mbRTU,6,0);
+    modbus_close(mbRTU);
+
+    modbus_connect(mbRTU);
+    modbus_write_register(mbRTU,6,quantidadePedida);
+    modbus_close(mbRTU);
+
+    modbus_free(mbRTU);
+
+
+    return true;
+}
+
+bool Serial::liberaMaquina() {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, FALSE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
+
+    modbus_connect(mbRTU);
+
+    modbus_write_bit(mbRTU,5,1);
+
+    modbus_close(mbRTU);
+    modbus_free(mbRTU);
+
+    return true;
+}
+
+bool Serial::bloqueiaMaquina() {
+    mbRTU = modbus_new_rtu(portaSelecionada.portName().toStdString().c_str(),9600,'N',8,1);
+    modbus_set_debug(mbRTU, FALSE);
+    modbus_rtu_set_serial_mode(mbRTU, MODBUS_RTU_RS232);
+    modbus_set_slave(mbRTU, 1);
+
+    modbus_connect(mbRTU);
+
+    modbus_write_bit(mbRTU,6,1);
+
+    modbus_close(mbRTU);
+    modbus_free(mbRTU);
+
+    return true;
+}
+

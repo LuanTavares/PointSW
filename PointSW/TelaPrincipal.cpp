@@ -8,7 +8,9 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
     db = conn;
 
     opDAO = new OrdemDeProducaoDAO(db);
+    apontamento = new Apontamento();    
     this->usuAtu = new Usuario(usuAtu);
+    apontamento->setUsuario(this->usuAtu);
     if (usuAtu->getGrupo() != "TI")
         ui->menubar->setVisible(false);
 
@@ -16,15 +18,23 @@ TelaPrincipal::TelaPrincipal(Usuario *usuAtu, QSqlDatabase conn, QWidget *parent
 
     if (dialogSserialDAO.getPortaSerial().size() == 0) {
         std::cout << "Não achou a porta Serial para este Computador." << std::endl;
+        QMessageBox erroDeSerial;
+        erroDeSerial.setWindowTitle("Erro ao tentar conectar na máquina");
+        erroDeSerial.setText("Não foi possível connectar na máquina pois não foi encontrado a porta serial, por gentileza contate o TI.");
+        erroDeSerial.setDefaultButton(QMessageBox::Ok);
+
+        if (erroDeSerial.exec() == QMessageBox::Ok) {
+            erroDeSerial.close();
+        }
     } else {
         portaDeComunicacao = new Serial(dialogSserialDAO.getPortaSerial());
+        portaDeComunicacao->bloqueiaMaquina();
+        leDadosImpressora = new QTimer();
+        connect(ui->actionSelecionar_Porta_Serial,SIGNAL(triggered()),this,SLOT(selecionaPortaSerial()));
+        connect(this->leDadosImpressora, SIGNAL(timeout()), this, SLOT(leDados()));
+
+        procuraParadasSemMotivos();
     }
-
-    leDadosImpressora = new QTimer();
-    connect(ui->actionSelecionar_Porta_Serial,SIGNAL(triggered()),this,SLOT(selecionaPortaSerial()));
-    connect(this->leDadosImpressora, SIGNAL(timeout()), this, SLOT(leDados()));
-
-    procuraParadasSemMotivos();
 }
 
 TelaPrincipal::~TelaPrincipal() {
@@ -40,36 +50,58 @@ void TelaPrincipal::startaTempoDeSetup() {
     Maquina * maq = new Maquina(op->getMaquina());
     estaNoSetup = true;
     setup = new Setup(maq,op,usuAtu,datIni.currentDate(),horIni.currentTime().minute(),datFim,0);
+    apontamento->setOP(op);
     
     SetupDAO setDAO(db);
 
-    if (setDAO.existeEsteSetup(setup)) {
-        QDate datFim;
-        QTime horIni;
-        int qtdMin = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
+    Producao * pro = new Producao();
+    pro->setMaquina(maq);
+    pro->setOP(op);
+    pro->setUsuario(usuAtu);
+    ProducaoDAO proDAO(db);
+    bool existeEstaProducao = proDAO.existeEstaProducao(pro);
 
+    if (setDAO.existeEsteSetup(setup)) {
         Maquina * maqParada = new Maquina(maq);
         OrdemDeProducao * opParada = new OrdemDeProducao(op);
         Usuario * usuParada = new Usuario(this->usuAtu);
 
         setup = setDAO.getSetup(maqParada,opParada,usuParada);
 
-        QDate datIniParada = this->setup->getDataFim();
-        int horIniParada = this->setup->getHoraFim();
-        Parada * parada = new Parada(maqParada,opParada,usuParada,datIniParada,horIniParada,0,datFim.currentDate(),qtdMin,NULL);
-        ParadasDAO parDAO(db);
-        parDAO.insereParada(parada);
-        botoes.at(0)->setEnabled(false);
-        procuraParadasSemMotivos();
+        if (!existeEstaProducao) {
+            QDate datFim;
+            QTime horIni;
+            int qtdMin = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
+
+            QDate datIniParada = this->setup->getDataFim();
+            int horIniParada = this->setup->getHoraFim();
+            Parada * parada = new Parada(maqParada,opParada,usuParada,datIniParada,horIniParada,0,datFim.currentDate(),qtdMin,NULL);
+            ParadasDAO parDAO(db);
+            parDAO.insereParada(parada);
+            botoes.at(0)->setEnabled(false);
+            procuraParadasSemMotivos();
+            tempoDeSetup = new TelaDeSetup(setup,db,false);
+            connect(tempoDeSetup, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeSetup(QTime)));
+            botoes.at(0)->setEnabled(false);
+            leDadosImpressora->start(1000);
+            this->update();
+        } else {
+            apontamento->setTempoDeSetup(setup->getHoraFim() - setup->getHoraInicio());
+            //delete tempoDeSetup;
+            //delete setup;
+            estaNoSetup = false;
+            leDadosImpressora->start(1000);
+            startaTempoDeProducao();
+        }
     } else {
-    
-        tempoDeSetup = new TelaDeSetup(setup,db);
-
+        QTime horIni;
+        int qtdMin = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
+        setup->setHoraInicio(qtdMin);
+        tempoDeSetup = new TelaDeSetup(setup,db, true);
         connect(tempoDeSetup, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeSetup(QTime)));
-
         botoes.at(0)->setEnabled(false);
-
         leDadosImpressora->start(1000);
+        portaDeComunicacao->liberaMaquina();
         this->update();
     }
 
@@ -77,12 +109,15 @@ void TelaPrincipal::startaTempoDeSetup() {
 
 void TelaPrincipal::startaTempoDeProducao() {
     OrdemDeProducao * op = ops.at(0);
+    portaDeComunicacao->setaQuanidadePedida(op->getQuantidadeProgramada());
     QDate datIni;
-    QTime horIni;
     QDate datFim;
+    QTime horIni;
     estaNaProducao = true;
     Maquina * maq = new Maquina(op->getMaquina());
-    producao = new Producao(maq,op,usuAtu,datIni.currentDate(),horIni.currentTime().minute(),0,datFim,0,0);
+    int qtdHor = (horIni.currentTime().hour() * 60 * 60) + (horIni.currentTime().minute() * 60) + horIni.currentTime().second();
+    producao = new Producao(maq,op,usuAtu,datIni.currentDate(),qtdHor,0,datFim,qtdHor,0);
+
     tempoDeProducao = new TelaDeProducao(producao,db);
 
     connect(tempoDeProducao, SIGNAL(atualizaTelaPrincipal(QTime)), this, SLOT(atualizaTempoDeProducao(QTime)));
@@ -176,17 +211,41 @@ void TelaPrincipal::startaTempoDeProducao() {
  }
 
  void TelaPrincipal::leDados() {
-
-     if (portaDeComunicacao->terminouSetup() && estaNoSetup) {
-         tempoDeSetup->acabouSetup();
-         delete tempoDeSetup;
-         estaNoSetup = false;
-         startaTempoDeProducao();
-     } else if (portaDeComunicacao->terminouProducao(1) && estaNaProducao){
-         tempoDeProducao->acabouProducao();
-         delete tempoDeProducao;
-         estaNaProducao = false;
-
+     OrdemDeProducao * op = ops.at(0);
+     if (estaNoSetup) {
+         if (portaDeComunicacao->terminouSetup()) {
+             tempoDeSetup->acabouSetup();
+             apontamento->setTempoDeSetup(setup->getHoraFim() - setup->getHoraInicio());
+             delete tempoDeSetup;
+             delete setup;
+             estaNoSetup = false;
+             startaTempoDeProducao();
+         } else {
+             QTime horFim;
+             setup->setHoraFim((horFim.currentTime().hour() * 60 * 60) + (horFim.currentTime().minute() * 60) + horFim.currentTime().second());
+         }
+     } else if (estaNaProducao) {
+         if (portaDeComunicacao->terminouProducao(op->getQuantidadeProgramada())){
+             tempoDeProducao->acabouProducao();
+             tempoDeProducao->setaStatus(3);
+             tempoDeProducao->gravaProducao();
+             leDadosImpressora->stop();
+             apontamento->setTempoDeProducao(producao->getHoraFim() - producao->getHoraInicio());
+             //std::cout << "Tempo de Producao: " << producao->getHoraInicio() << " - " << producao->getHoraFim() << std::endl;
+             apontamento->setQuantidadeProduzida(portaDeComunicacao->solicitaLeituraQtdTotal());
+             ApontamentoDAO * apoDAO = new ApontamentoDAO(db);
+             Maquina * maq = new Maquina(producao->getMaquina());
+             apontamento->setMaquina(maq);
+             apoDAO->insereApontamento(*apontamento);
+             delete tempoDeProducao;
+             delete producao;
+             estaNaProducao = false;
+             carrgaFilaDeProducao();
+         } else {
+             QTime horFim;
+             producao->setHoraFim((horFim.currentTime().hour() * 60 * 60) + (horFim.currentTime().minute() * 60) + horFim.currentTime().second());
+             producao->setContagem(portaDeComunicacao->solicitaLeituraQtdTotal());
+         }
      }
  }
 
@@ -199,6 +258,7 @@ void TelaPrincipal::startaTempoDeProducao() {
          Parada * dialogParada = paradas.at(0);
          TelaDeParada * dialogTelaDeParada = new TelaDeParada(dialogParada,db);
          connect(dialogTelaDeParada, SIGNAL(destroyed()), this, SLOT(procuraParadasSemMotivos()));
+         apontamento->setQuantidadeDeParadas(apontamento->getQuantidadeDeParadas() + 1);
          dialogTelaDeParada->show();
      } else {
          carrgaFilaDeProducao();
